@@ -1,0 +1,49 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# Database
+db/
+*.sqlite3
+
+# Backups and temp files
+backups/
+*.log
+*.tmp
+
+# Documentation (not needed in container)
+MPADocs/
+.context/
+.github/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files (exclude these specific files, but allow entrypoint.sh)
+docker/ollama_models/
+docker/README.md
+Dockerfile
+.dockerignore
+docker-compose.yml

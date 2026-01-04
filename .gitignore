@@ -1,0 +1,14 @@
+db/
+MPADocs/
+backups/
+.context/
+.github/
+.DS_Store
+.vscode/
+*.log
+*.tmp
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
