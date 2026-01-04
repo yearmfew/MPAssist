@@ -1,7 +1,97 @@
 # MPAssist
 Config file creation using llms. 
 
-# Run project on local with python
+---
+
+## 🚀 Quick Start with Virtual Environment (Recommended)
+
+### Prerequisites
+- Python 3.8+ installed on your system
+- Ollama installed and running locally
+
+### Installation
+
+#### 1. Clone the repository
+```bash
+git clone <repo-url>
+cd MPAssist
+```
+
+#### 2. Run setup script
+This will create a virtual environment and install all dependencies:
+```bash
+./setup.sh
+```
+
+#### 3. Start Ollama service
+In a separate terminal:
+```bash
+ollama serve
+```
+
+#### 4. Pull required models (first time only)
+```bash
+ollama pull llama3
+ollama pull mxbai-embed-large
+```
+
+#### 5. Activate virtual environment
+```bash
+source venv/bin/activate
+```
+
+#### 6. Create vector database (first time only)
+```bash
+python ingest.py
+```
+
+#### 7. Run the application
+```bash
+./run.sh
+```
+
+### Daily Usage
+
+After initial setup, you only need:
+```bash
+# 1. Make sure Ollama is running (in a separate terminal)
+ollama serve
+
+# 2. Run the application
+./run.sh
+```
+
+### Manual Virtual Environment Management
+
+If you prefer to manage the virtual environment manually:
+
+#### Create virtual environment
+```bash
+python3 -m venv venv
+```
+
+#### Activate virtual environment
+```bash
+# On macOS/Linux
+source venv/bin/activate
+
+# On Windows
+venv\Scripts\activate
+```
+
+#### Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+#### Deactivate virtual environment (when done)
+```bash
+deactivate
+```
+
+---
+
+## 🐍 Run project on local with Python (without venv)
 
 ## 1. Start Ollama service
 ollama serve
@@ -20,8 +110,9 @@ python ingest.py
 cd src
 python main.py
 
+---
 
-# Quick Start with Docker
+# 🐳 Quick Start with Docker
 
 *NOTE:* Using Ollama on docker container forces the system. It could be harmful if your system not have that power.
 On mac m1 and 16GB Ram it makes too much noises at the last step :) 
