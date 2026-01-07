@@ -12,3 +12,10 @@ backups/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env/
