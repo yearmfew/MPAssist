@@ -22,6 +22,8 @@ This will create a virtual environment and install all dependencies:
 ```bash
 ./setup.sh
 ```
+    If there are problems becuase of python and pip try this
+    sudo apt install python3.8-venv
 
 #### 3. Start Ollama service
 In a separate terminal:
