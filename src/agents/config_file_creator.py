@@ -2,7 +2,7 @@ import os
 from agents.base_agent import BaseAgent
 from template import TEMPLATE_CONFIG_GENERATOR, TEMPLATE_STRUCTURE_FIXER
 from langchain_core.prompts import PromptTemplate
-import utils.db_manager as db_manager
+from utils import db_manager
 from agents.halisunation_checker import HalisunationChecker
 
 

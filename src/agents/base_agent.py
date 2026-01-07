@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from langchain_ollama import ChatOllama
-from utils.db_manager import LLM_MODEL
+from langchain_openai import ChatOpenAI
+from settings import LLM_MODEL, IONOS_API_BASE_URL, IONOS_API_TOKEN
 
 
 class BaseAgent(ABC):
@@ -12,31 +12,48 @@ class BaseAgent(ABC):
 
     def __init__(self, model: str = LLM_MODEL):
         self.model = model
+        # Get API token from environment variable
+        self.api_token = IONOS_API_TOKEN
+        self.base_url = IONOS_API_BASE_URL
+        if not self.api_token:
+            raise ValueError(
+                "IONOS_API_TOKEN environment variable not set. "
+                "Please set it to your IONOS AI Model Hub API token."
+            )
 
-    def invoke_llm(self, prompt: str, **kwargs) -> str:
+    def invoke_llm(self, prompt: str, stream: bool = False, **kwargs) -> str:
         """
-        Common LLM invocation method.
-        Subclasses can override this for custom parameters (temperature, streaming, etc.).
+        Common LLM invocation method using IONOS AI Model Hub.
+        Subclasses can override this for custom parameters (temperature, top_p, etc.).
 
         Args:
             prompt: The prompt to send to the LLM
-            **kwargs: Additional parameters to pass to ChatOllama (temperature, top_p, etc.)
+            stream: Whether to stream the response (default: False)
+            **kwargs: Additional parameters to pass to ChatOpenAI (temperature, top_p, etc.)
 
         Returns:
-            The LLM response as a string
+            The LLM response as a string (or generator if stream=True)
         """
-        # Initialize the LLM
-        llm = ChatOllama(model=self.model, **kwargs)
+        # Initialize the LLM with IONOS endpoint
+        llm = ChatOpenAI(
+            model=self.model,
+            base_url=self.base_url,
+            api_key=self.api_token,
+            **kwargs,
+        )
 
-        # Use invoke() method like the working chain does
-        # invoke() returns an AIMessage object, we need to extract the content
-        response = llm.invoke(prompt)
-
-        # Extract text from the response
-        if hasattr(response, "content"):
-            return response.content
+        if stream:
+            # Return a generator for streaming
+            return llm.stream(prompt)
         else:
-            return str(response)
+            # Use invoke() method - returns an AIMessage object
+            response = llm.invoke(prompt)
+
+            # Extract text from the response
+            if hasattr(response, "content"):
+                return response.content
+            else:
+                return str(response)
 
     @abstractmethod
     def execute(self, *args, **kwargs):

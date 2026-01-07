@@ -1,15 +1,9 @@
 import os
 from langchain_chroma import Chroma
-from langchain_ollama import OllamaEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from utils.console import Colors
+from settings import EMBEDDING_MODEL, DB_PATH
 
-# --- Constants ---
-
-# CRITICAL: We are running this file from *inside* the 'src' directory,
-# so we must go UP one level ('..') to find the 'db' folder.
-DB_PATH = "../db"
-EMBEDDING_MODEL = "mxbai-embed-large"  # Must match the model from ingest.py
-LLM_MODEL = "llama3"  # The chat model we just pulled
 
 # --- Simple module-level caches to avoid reloading models repeatedly ---
 _embeddings = None
@@ -21,20 +15,22 @@ _retriever = None
 def _init_embeddings():
     """
     1. Initialize Models
-    This mirrors the earlier inline initialization: create the Ollama embeddings
-    model once and reuse it across functions.
+    Initialize local HuggingFace embeddings.
     """
     global _embeddings
     if _embeddings is None:
-        # 1. Initialize Models
         print(
             f"{Colors.CYAN}Loading embedding model '{EMBEDDING_MODEL}'...{Colors.END}"
         )
-        _embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL)
+        _embeddings = HuggingFaceEmbeddings(
+            model_name=EMBEDDING_MODEL,
+            model_kwargs={"device": "cpu"},
+            encode_kwargs={"normalize_embeddings": True},
+        )
     return _embeddings
 
 
-def _init_vector_store():
+def _init_vector_store(k=10):
     """
     2. Load Vector Database & Create Retriever
     This centralizes the logic that previously lived in `main()`:
@@ -55,9 +51,6 @@ def _init_vector_store():
         )
         _vector_store = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
         # 3. Create a Retriever
-        # This object knows how to fetch documents based on a query
-        _retriever = _vector_store.as_retriever(
-            search_kwargs={"k": 10}
-        )  # Get top 10 relevant chunks
+        _retriever = _vector_store.as_retriever(search_kwargs={"k": k})
         print(f"{Colors.GREEN}✓ Retriever created successfully.{Colors.END}")
     return _vector_store

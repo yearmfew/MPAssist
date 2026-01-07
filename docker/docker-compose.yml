@@ -4,56 +4,26 @@
 # Defines the services (containers) that make up the application
 services:
 
-  # 1. The Ollama Service (Dependency - must start first)
-  ollama:
-    # Use the official Ollama image
-    image: ollama/ollama:latest
-    container_name: ollama_service
-    # Use Docker-managed volume (not host directory)
-    volumes:
-      - ollama_models:/root/.ollama
-    # Expose the Ollama port to the host machine (optional, for debugging)
-    ports:
-      - "11434:11434"
-    # Health check to ensure Ollama is ready before starting the app
-    healthcheck:
-      test: [ "CMD-SHELL", "ollama list || exit 1" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-
-  # 2. The MPAssist Python Application
+  # MPAssist Gradio Web Application
   mpassist-app:
     # Build the image from the Dockerfile in the docker directory
     build:
       context: ..
       dockerfile: docker/Dockerfile
     container_name: mpassist_app
-    # Set environment variables for the app
+    # Use root .env file for environment variables
+    env_file:
+      - ../.env
     environment:
-      # This tells the Python app where to find the Ollama service
-      - OLLAMA_HOST=http://ollama:11434
-    # Mount local directories into the container
-    # This allows:
-    # - Code changes without rebuilding (src/)
-    # - DB persistence across restarts (db/)
-    # - Access to documentation (masterportal-docs/)
+      - ANONYMIZED_TELEMETRY=False
+    # Mount src for hot-reload during development
     volumes:
       - ../src:/app/src
-      - ../db:/app/db
       - ../masterportal-docs:/app/masterportal-docs
       - ../ingest.py:/app/ingest.py
-    # Depends on the 'ollama' service
-    # Will wait for Ollama to be healthy before starting
-    depends_on:
-      ollama:
-        condition: service_healthy
-    # (CRITICAL for CLI) Keep stdin open and allocate a TTY
-    # This allows interactive input in the terminal
+    # Expose Gradio port
+    ports:
+      - "7860:7860"
+    # Keep container running
     tty: true
     stdin_open: true
-
-# Named volumes (Docker-managed, isolated from host)
-volumes:
-  ollama_models:
