@@ -3,16 +3,13 @@ import shutil
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
-from langchain_ollama import OllamaEmbeddings
-
+from langchain_huggingface import HuggingFaceEmbeddings
 
 # --- Settings ---
-DOCS_PATH = "masterportal-docs"
-DB_PATH = "db"
-# OLLAMA_EMBEDDING_MODEL = "nomic-embed-text" // needs prefix. Using another model for now.
-OLLAMA_EMBEDDING_MODEL = "mxbai-embed-large"
-
-# Define a batch size to avoid overwhelming Ollama
+DOCS_PATH = "./masterportal-docs"
+DB_PATH = "./db"
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+# Define a batch size
 BATCH_SIZE = 50
 
 
@@ -117,12 +114,14 @@ def main():
     print(f"Documents split into {len(chunks)} chunks.")
 
     # 3. Initialize Embedding Model
-    print(f"Initializing Ollama embedding model '{OLLAMA_EMBEDDING_MODEL}'...")
+    print(f"Initializing embedding model '{EMBEDDING_MODEL}'...")
 
-    # Use the correct, non-deprecated class
-    embeddings = OllamaEmbeddings(model=OLLAMA_EMBEDDING_MODEL)
-
-    print("Embedding model initialized successfully.")
+    # Use local HuggingFace embeddings
+    embeddings = HuggingFaceEmbeddings(
+        model_name=EMBEDDING_MODEL,
+        model_kwargs={"device": "cpu"},
+        encode_kwargs={"normalize_embeddings": True},
+    )
 
     # 4. Create and Save Vector Store (IN BATCHES)
     if os.path.exists(DB_PATH):

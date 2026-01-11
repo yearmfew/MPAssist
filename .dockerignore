@@ -23,10 +23,6 @@ venv.bak/
 .git/
 .gitignore
 
-# Database
-db/
-*.sqlite3
-
 # Backups and temp files
 backups/
 *.log
