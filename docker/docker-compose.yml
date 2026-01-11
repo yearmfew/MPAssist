@@ -16,11 +16,10 @@ services:
       - ../.env
     environment:
       - ANONYMIZED_TELEMETRY=False
+      - DB_PATH=/app/db
     # Mount src for hot-reload during development
     volumes:
       - ../src:/app/src
-      - ../masterportal-docs:/app/masterportal-docs
-      - ../ingest.py:/app/ingest.py
     # Expose Gradio port
     ports:
       - "7860:7860"

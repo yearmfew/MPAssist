@@ -69,17 +69,15 @@ Would you like to add, remove, or clarify any of these requirements?
 3. [Third requirement]
 ...
 
-[REQUIREMENTS_READY]
-
 ### IMPORTANT:
 - Keep the conversation brief and focused
 - Only ask for details when absolutely necessary
 - The user can always add more details later if needed
-- Only include [REQUIREMENTS_READY] when the user confirms they're satisfied with the requirements
-- The [REQUIREMENTS_READY] marker must appear on its own line at the end
+- If users says they are done, write [REQUIREMENTS_READY] after the summary
 
-Conversation History:
-{conversation_history}
+Last Message of User: {message}
+
+Conversation History: {conversation_history}
 
 Your Response:
 """
@@ -149,7 +147,7 @@ Context (Available Modules & Layers):
 {context}
 
 User Requirements:
-{question}
+{requirements}
 
 Module & Layer Selection:
 """
@@ -171,7 +169,9 @@ Generate a complete, valid **config.json** by populating the provided template w
 ### HOW TO TREAT CONTEXT LABELS:
 In the "Context" section you will see these:
    - EXAMPLE.CONFIG.JSON TEMPLATE: template to be used as a template to create config.json.
-   - SELECTED TOOLS & LAYERS: the retrieved documents for tools and layers.
+   - Do not delete the configurations in example.config.json. 
+   - Use the configurations as is. If user says explicitly to remove a configuration then remove it. Otherwise keep all configurations.
+   - module_configurations: the retrieved configurations for modules.
    - RELEVANT DOCUMENTATION (with priority labels): rag context with labels like [CATEGORY: ...], [PRIORITY: ...] and [INCLUDES: ...].
 
 **PRIORITY LEVELS:**
@@ -212,8 +212,19 @@ Use this to quickly find relevant info.
 }
 ```
 
-Context:
+EXAMPLE.CONFIG.JSON TEMPLATE:
+```json
+{example_template}
+```
+This is a working, valid, example Masterportal configuration. Also called "example.config.json".
+
+Configurations for modules to include:
+{module_configurations}
+
+RELEVANT DOCUMENTATION (with priority labels):
 {context}
+
+Generate the config.json using the EXAMPLE.CONFIG.JSON TEMPLATE above: add required modules/layers, modify values as needed, and keep existing reasonable defaults. Be conservative with deletions.",
 
 Generated Config.json:
 """

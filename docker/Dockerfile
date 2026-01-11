@@ -5,14 +5,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 WORKDIR /app
 
-# Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY masterportal-docs /app/masterportal-docs
 
-COPY ingest.py /app/
-RUN python3 /app/ingest.py
+COPY db /app/db
 
 COPY src /app/src
 

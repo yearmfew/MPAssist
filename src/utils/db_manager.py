@@ -1,8 +1,7 @@
 import os
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-from utils.console import Colors
-from settings import EMBEDDING_MODEL, DB_PATH
+from utils.settings import EMBEDDING_MODEL, DB_PATH
 
 
 # --- Simple module-level caches to avoid reloading models repeatedly ---
@@ -19,9 +18,6 @@ def _init_embeddings():
     """
     global _embeddings
     if _embeddings is None:
-        print(
-            f"{Colors.CYAN}Loading embedding model '{EMBEDDING_MODEL}'...{Colors.END}"
-        )
         _embeddings = HuggingFaceEmbeddings(
             model_name=EMBEDDING_MODEL,
             model_kwargs={"device": "cpu"},
@@ -46,11 +42,8 @@ def _init_vector_store(k=10):
                 f"Database not found at '{DB_PATH}'. Run ingest.py first."
             )
         embeddings = _init_embeddings()
-        print(
-            f"{Colors.CYAN}Loading persistent vector database from '{DB_PATH}'...{Colors.END}"
-        )
+
         _vector_store = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
         # 3. Create a Retriever
         _retriever = _vector_store.as_retriever(search_kwargs={"k": k})
-        print(f"{Colors.GREEN}✓ Retriever created successfully.{Colors.END}")
     return _vector_store

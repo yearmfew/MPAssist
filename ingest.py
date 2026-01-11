@@ -1,4 +1,3 @@
-# from curses.ascii import EM
 import os
 import shutil
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
