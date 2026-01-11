@@ -8,6 +8,7 @@ backups/
 *.log
 *.tmp
 masterportal-docs-short/
+MPAssist.code-workspace
 
 # Python cache
 __pycache__/

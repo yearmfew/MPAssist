@@ -11,7 +11,8 @@ openai>=1.0.0
 sentence-transformers>=2.2.0
 
 # Web UI
-gradio==4.19.2
+# gradio==4.19.2
+gradio==6.3.0
 python-dotenv>=1.0.0
 
 # Fix tokenizers version conflict (chromadb requires <=0.20.3)

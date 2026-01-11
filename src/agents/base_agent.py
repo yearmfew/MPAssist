@@ -1,17 +1,18 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from langchain_openai import ChatOpenAI
-from settings import LLM_MODEL, IONOS_API_BASE_URL, IONOS_API_TOKEN
+from langchain_core.prompts import PromptTemplate
+from utils.settings import LLM_MODEL, IONOS_API_BASE_URL, IONOS_API_TOKEN
+from utils import db_manager
 
 
 class BaseAgent(ABC):
     """
     Base class for all agents.
-    Provides common LLM invocation functionality.
-    Subclasses can override invoke_llm for custom behavior.
+    Provides common functions.
     """
 
-    def __init__(self, model: str = LLM_MODEL):
-        self.model = model
+    def __init__(self):
+        self.model = LLM_MODEL
         # Get API token from environment variable
         self.api_token = IONOS_API_TOKEN
         self.base_url = IONOS_API_BASE_URL
@@ -21,14 +22,13 @@ class BaseAgent(ABC):
                 "Please set it to your IONOS AI Model Hub API token."
             )
 
-    def invoke_llm(self, prompt: str, stream: bool = False, **kwargs) -> str:
+    def invoke_llm(self, prompt: str, **kwargs) -> str:
         """
         Common LLM invocation method using IONOS AI Model Hub.
         Subclasses can override this for custom parameters (temperature, top_p, etc.).
 
         Args:
             prompt: The prompt to send to the LLM
-            stream: Whether to stream the response (default: False)
             **kwargs: Additional parameters to pass to ChatOpenAI (temperature, top_p, etc.)
 
         Returns:
@@ -42,23 +42,37 @@ class BaseAgent(ABC):
             **kwargs,
         )
 
-        if stream:
-            # Return a generator for streaming
-            return llm.stream(prompt)
-        else:
-            # Use invoke() method - returns an AIMessage object
-            response = llm.invoke(prompt)
+        response = llm.invoke(prompt)
 
-            # Extract text from the response
-            if hasattr(response, "content"):
-                return response.content
-            else:
-                return str(response)
+        return str(response.content)
 
-    @abstractmethod
-    def execute(self, *args, **kwargs):
-        """
-        Each agent must implement this method.
-        This is the main entry point for the agent's functionality.
-        """
-        pass
+    def getChunks(self, query: str, k: int = 3, filter: dict = {}, **kwargs) -> list:
+        try:
+            chunks = db_manager._vector_store.similarity_search(
+                query,
+                k,
+                filter,
+                **kwargs,
+            )
+        except Exception:
+            chunks = []
+
+        return chunks
+
+    def createPromptTemplate(self, template: str, context: str, **kwargs) -> str:
+        prompt_template = PromptTemplate.from_template(template)
+        variables = {"context": context, **kwargs}
+
+        try:
+            full_prompt = prompt_template.format(**variables)
+        except Exception:
+            full_prompt = template
+            for key, value in variables.items():
+                full_prompt = full_prompt.replace(f"{{{key}}}", str(value))
+
+        return full_prompt
+
+    def printNice(self, message: str, title: str = "INFO"):
+        print(f"\033[94m┌─ {title} {'─' * (100 - len(title) - 4)}┐\033[91m")
+        print(message)
+        print(f"\033[94m└{'─' * 100}┘\033[0m")
