@@ -1,10 +1,10 @@
 import re
+import json
 
 from typing import List, Dict
 from agents.base_agent import BaseAgent
 from utils import db_manager
-from utils.template import TEMPLATE_REQUIREMENT_GATHERER
-from langchain_core.prompts import PromptTemplate
+from utils.template import TEMPLATE_REQUIREMENT_GATHERER, TEMPLATE_EXTRACT_REQUIREMENTS
 
 
 class RequirementFinder(BaseAgent):
@@ -15,10 +15,26 @@ class RequirementFinder(BaseAgent):
     def _find_requirements(
         self, user_input: str, conversation_history: list[dict]
     ) -> str:
-        prompt_template = PromptTemplate.from_template(TEMPLATE_REQUIREMENT_GATHERER)
 
-        full_prompt = prompt_template.format(
-            message=user_input, conversation_history=conversation_history
+        chunks = self.get_chunks(
+            query=str(conversation_history),
+            k=4,
+            filter={"category": "mainDocumentation"},
+        )
+
+        labelled_chunks = self._label_chunks(
+            chunks,
+            templateName="TEMPLATE_REQUIREMENT_GATHERER",
+            priority_map={"mainDocumentation": "HIGH"},
+        )
+
+        context_text = "\n\n---\n\n".join(labelled_chunks)
+
+        full_prompt = self.create_prompt_template(
+            template=TEMPLATE_REQUIREMENT_GATHERER,
+            context=context_text,
+            message=user_input,
+            conversation_history=conversation_history,
         )
 
         llm_response = self.invoke_llm(full_prompt)
@@ -62,3 +78,48 @@ class RequirementFinder(BaseAgent):
             result["isFinished"] = True
 
         return result
+
+    def extract_requirements_as_dict(self, summary: str) -> dict:
+        full_prompt = self.create_prompt_template(
+            template=TEMPLATE_EXTRACT_REQUIREMENTS, context=summary
+        )
+        llm_response = self.invoke_llm(full_prompt)
+
+        try:
+            cleaned_llm_response = re.sub(r"```json?|```", "", llm_response).strip()
+            requirements_dict = json.loads(cleaned_llm_response)
+        except json.JSONDecodeError:
+            requirements_dict = {
+                "requirements": [],
+                # "layers": [],
+                # "map_configurations": {},
+                # "menu_configurations": {},
+            }
+
+        return requirements_dict
+
+    def _label_chunks(
+        self,
+        chunks: list,
+        templateName: str = "",
+        priority_map: dict = {},
+    ) -> list:
+        labeled_chunks = []
+
+        for chunk in chunks:
+            category = chunk.metadata.get("category", "unknown")
+            templateFromMetadata = chunk.metadata.get("template", "")
+
+            if templateName == templateFromMetadata:
+                priority = "CRITICAL"
+            else:
+                priority = priority_map.get(category, "LOW")
+
+            labeled_chunk = (
+                f"[CATEGORY]: {category}\n"
+                f"[PRIORITY]: {priority}\n"
+                f"{chunk.page_content}"
+            )
+            labeled_chunks.append(labeled_chunk)
+
+        return labeled_chunks

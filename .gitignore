@@ -9,11 +9,12 @@ backups/
 *.tmp
 masterportal-docs-short/
 MPAssist.code-workspace
-
+portalconfigs/
 # Python cache
 __pycache__/
 *.py[cod]
 *$py.class
+logfile
 
 # Virtual Environment
 venv/

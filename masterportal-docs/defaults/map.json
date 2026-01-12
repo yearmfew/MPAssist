@@ -1,0 +1,109 @@
+{
+    "map": {
+        "baselayerSwitcher": {
+            "active": true
+        },
+        "controls": {
+            "rotation": {
+                "showResetRotationAlways": true,
+                "showResetRotation": true,
+                "rotationIcons": true,
+                "moveDistance": 2500,
+                "compass2d": true
+            },
+            "zoom": true,
+            "orientation": {
+                "zoomMode": "once"
+            },
+            "fullScreen": true
+        },
+        "mapView": {
+            "backgroundImage": "./resources/img/backgroundCanvas.jpeg",
+            "startCenter": [
+                561210,
+                5932600
+            ],
+            "extent": [
+                510000.0,
+                5850000.0,
+                625000.4,
+                6000000.0
+            ],
+            "startZoomLevel": 1
+        },
+        "mouseHover": {
+            "numFeaturesToShow": 2,
+            "infoText": "",
+            "highlightOnHover": true,
+            "highlightVectorRulesPolygon": {
+                "fill": {
+                    "color": [
+                        255,
+                        255,
+                        255,
+                        0.5
+                    ]
+                },
+                "stroke": {
+                    "width": 4,
+                    "color": [
+                        255,
+                        0,
+                        0,
+                        0.9
+                    ]
+                }
+            },
+            "highlightVectorRulesPointLine": {
+                "stroke": {
+                    "width": 8,
+                    "color": [
+                        255,
+                        0,
+                        255,
+                        0.9
+                    ]
+                },
+                "image": {
+                    "scale": 2
+                }
+            }
+        },
+        "getFeatureInfo": {
+            "coloredHighlighting3D": {
+                "enabled": true,
+                "color": "PURPLE"
+            },
+            "highlightVectorRules": {
+                "fill": {
+                    "color": [
+                        215,
+                        102,
+                        41,
+                        0.9
+                    ]
+                },
+                "image": {
+                    "scale": 1.5
+                },
+                "stroke": {
+                    "width": 4,
+                    "color": [
+                        215,
+                        102,
+                        41,
+                        0.9
+                    ]
+                },
+                "text": {
+                    "scale": 2
+                }
+            },
+            "hideMapMarkerOnVectorHighlight": false
+        },
+        "layerPills": {
+            "active": true
+        },
+        "startingMapMode": "2D"
+    }
+}

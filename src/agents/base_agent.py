@@ -1,4 +1,8 @@
 from abc import ABC
+import re
+import json
+
+from pathlib import Path
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from utils.settings import LLM_MODEL, IONOS_API_BASE_URL, IONOS_API_TOKEN
@@ -76,3 +80,34 @@ class BaseAgent(ABC):
         print(f"\033[94m┌─ {title} {'─' * (100 - len(title) - 4)}┐\033[91m")
         print(message)
         print(f"\033[94m└{'─' * 100}┘\033[0m")
+
+    def read_file(self, file_path: str) -> str:
+        """
+        Load the file form given path file.
+
+        Returns:
+            Content of example.config.json as string
+        """
+        base_config_path = Path(__file__).resolve().parents[2] / file_path
+
+        try:
+            return base_config_path.read_text()
+
+        except FileNotFoundError:
+            self.print_nice(
+                title=f"❌ Error: file is not found at {base_config_path}. ",
+                message="Please ensure the file is in the directory",
+            )
+            return ""
+
+    def extract_json_from_response(self, llm_response: str) -> str:
+        match = re.search(r"```json\s*(.*?)\s*```", llm_response, re.DOTALL)
+
+        if match:
+            return match.group(1).strip()
+
+        match = re.search(r"\{.*\}", llm_response, re.DOTALL)
+        if match:
+            return match.group(0).strip()
+
+        return "{}"

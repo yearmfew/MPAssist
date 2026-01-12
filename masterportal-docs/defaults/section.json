@@ -1,0 +1,28 @@
+{
+    "sections": [
+        [
+            {
+                "type": "contact",
+                "serviceId": "",
+                "from": [
+                    {
+                        "email": "",
+                        "name": ""
+                    }
+                ],
+                "to": [
+                    {
+                        "email": "",
+                        "name": ""
+                    }
+                ]
+            },
+            {
+                "type": "language"
+            },
+            {
+                "type": "about"
+            }
+        ]
+    ]
+}

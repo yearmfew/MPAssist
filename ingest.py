@@ -25,56 +25,46 @@ def add_custom_metadata(docs):
     for doc in docs:
         source_path = doc.metadata.get("source", "")
 
-        # Priority 1: modules_doc files (PRIMARY reference for tool/module definitions)
-        if "modules_docs" in source_path:
-            doc.metadata["category"] = "docs_for_modules"
-            doc.metadata["agents"] = "tool_finder"
-
-        # Priority 2: Examples (structure reference only)
-        elif "examples" in source_path or "modules_examples" in source_path:
+        if "examples" in source_path in source_path:
             doc.metadata["category"] = "example"
-            doc.metadata["agents"] = "config_file_creator"
 
         # cleanedDocs files
         elif "cleanedDocs" in source_path:
             if "layerConfig.md" in source_path:
-                doc.metadata["category"] = "documentation"
-                doc.metadata["agents"] = "tool_finder"
-                doc.metadata["includes"] = "layerConfig configurations"
+                doc.metadata["category"] = "layerConfigDocumentation"
+                doc.metadata["template"] = "TEMPLATE_LAYER_FINDER"
             elif "layerConfigBaseLayer" in source_path:
-                doc.metadata["category"] = "documentation"
-                doc.metadata["agents"] = "tool_finder"
-                doc.metadata["includes"] = "layers"
+                doc.metadata["category"] = "baseLayerConfigDocumentation"
+                doc.metadata["template"] = "TEMPLATE_LAYER_FINDER"
             elif "layerConfigSubjectLayer" in source_path:
-                doc.metadata["category"] = "documentation"
-                doc.metadata["agents"] = "tool_finder"
-                doc.metadata["includes"] = "layers"
+                doc.metadata["category"] = "subjectLayerConfigDocumentation"
+                doc.metadata["template"] = "TEMPLATE_LAYER_FINDER"
             elif "portalConfig.md" in source_path:
-                doc.metadata["category"] = "documentation"
-                doc.metadata["agents"] = ""
-            elif "portalConfigMainMenu" in source_path:
-                doc.metadata["category"] = "documentation"
-                doc.metadata["agents"] = "tool_finder"
-                doc.metadata["includes"] = "modules"
+                doc.metadata["category"] = "portalConfigDocumentation"
             elif "portalConfigMap" in source_path:
-                doc.metadata["category"] = "documentation"
-                doc.metadata["agents"] = "tool_finder"
-                doc.metadata["includes"] = "maps"
+                doc.metadata["category"] = "mapConfigDocumentation"
+                doc.metadata["template"] = "TEMPLATE_MAP_FINDER"
+            elif "portalConfigModules" in source_path:
+                doc.metadata["category"] = "modulesConfigDocumentation"
+                doc.metadata["template"] = "TEMPLATE_MODULE_FINDER"
             elif "portalConfigPortalFooter" in source_path:
-                doc.metadata["category"] = "documentation"
-                doc.metadata["agents"] = ""
-            elif "portalConfigSecondaryMenu" in source_path:
-                doc.metadata["category"] = "documentation"
-                doc.metadata["agents"] = "tool_finder"
-                doc.metadata["includes"] = "modules"
+                doc.metadata["category"] = "portalFooterConfigDocumentation"
+                doc.metadata["template"] = "TEMPLATE_PORTAL_FOOTER_CONFIG_FINDER"
             elif "portalConfigTree" in source_path:
-                doc.metadata["category"] = "documentation"
-                doc.metadata["agents"] = ""
+                doc.metadata["category"] = "treeConfigDocumentation"
+                doc.metadata["template"] = "TEMPLATE_TREE_CONFIG_FINDER"
+            elif "portalConfigMainMenu" in source_path:
+                doc.metadata["category"] = "mainMenuConfigDocumentation"
+                doc.metadata["template"] = "TEMPLATE_MENU_CONFIG_FINDER"
+            elif "portalConfigSecondaryMenu" in source_path:
+                doc.metadata["category"] = "secondaryMenuConfigDocumentation"
+                doc.metadata["template"] = "TEMPLATE_MENU_CONFIG_FINDER"
 
-        # Priority 3: General documentation
+        elif "configDocumentation" in source_path:
+            doc.metadata["category"] = "mainDocumentation"
+
         else:
             doc.metadata["category"] = "documentation"
-            doc.metadata["agents"] = "config_file_creator"
 
     return docs
 
@@ -90,14 +80,19 @@ def main():
 
     # 1. Load Documents
     print(f"Loading documents from '{DOCS_PATH}'...")
-    loader = DirectoryLoader(
-        DOCS_PATH,
-        glob="**/*.md",
-        loader_cls=TextLoader,
-        show_progress=True,
-        use_multithreading=True,
-    )
-    documents = loader.load()
+
+    extensions = ["**/*.md", "**/*.json"]
+    documents = []
+    for extension in extensions:
+
+        loader = DirectoryLoader(
+            DOCS_PATH,
+            glob=extension,
+            loader_cls=TextLoader,
+            show_progress=True,
+            use_multithreading=True,
+        )
+        documents.extend(loader.load())
 
     # Add custom metadata to documents
     documents = add_custom_metadata(documents)
@@ -109,7 +104,11 @@ def main():
 
     # 2. Split into Chunks
     print("Splitting documents into chunks...")
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=200)
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1500,
+        chunk_overlap=200,
+        separators=["\n\n", "\n", "},", "],", " ", ""],
+    )
     chunks = text_splitter.split_documents(documents)
     print(f"Documents split into {len(chunks)} chunks.")
 
