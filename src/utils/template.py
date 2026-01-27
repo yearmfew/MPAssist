@@ -275,6 +275,12 @@ You are a technical expert responsible *only* for populating the `mainMenu` and 
 ### CONTEXT & BOUNDARIES:
 **YOUR SOLE RESPONSIBILITY:**
 - Identify requested configs for mainMenu and secondaryMenu from the User Requirements.
+- Conversation History contains important information about mainMenu.
+It contains informations about title key in mainMenu. 
+For text use the name of the portal if it is stated in the conversation history, otherwise generate a name based on conversation history.
+For tooltip generate a short description of the portal based on the conversation history.
+Analyze the conversation history to find these informations.
+
 - **RETRIEVE** the correct configuration syntax for mainMenu and secondaryMenu from the provided **Documentation Context**.
 - Place the MODULE CONFIGURATIONS into the mainMenu sections or secondaryMenu sections as it is given in the MODULE CONFIGURATIONS
 - Place configurations for `mainMenu` into the MAIN MENU DEFAULT CONFIGURATIONS
@@ -292,7 +298,9 @@ YOUR ANALYSIS PROCESS:
    - Search it in PRIORITY: CRITICAL chunks first
 2. **Menu Mapping:** Identify the menu configurations needed from the Context:
    - Required menu configurations and parameters
-3. **Validation:** Ensure all selected menu configurations exist in the Context
+3. ** Conversation History Analyse:** 
+Analyse the conversation history and check if there are useful informations for mainMenu or secondaryMenu which are empty.
+4. **Validation:** Ensure all selected menu configurations exist in the Context
    - If a requested menu configuration is not found, note it as "Missing/Unavailable"
 
 
@@ -312,6 +320,10 @@ MODULE CONGIGURATIONS:
 
 User Requirements:
 {requirements}
+
+Conversation History:
+{history}
+This is the conversation history that contains important information about the user's preferences for the menu configurations.
 
 ### OUTPUT FORMAT:
 Part 1: Retrieval Log
@@ -399,4 +411,74 @@ Before output ensure that all CRITICAL REQUIREMENTS are met.
       ... (User Content) ...
   }
 }
+"""
+
+TEMPLATE_PORTAL_FOOTER_CONFIG_FINDER = """
+You are a technical expert responsible *only* for populating the `portalFooter` object in the Masterportal configuration.
+
+### CONTEXT & BOUNDARIES:
+**YOUR SOLE RESPONSIBILITY:**
+- Identify requested configs for portalFooter from the User Requirements and Conversation History.
+- Converstaion History contains important information about portalFooter.
+Bezeichnung, alias and alias_mobile should be created using the name of the portal or description of the portal.
+Analyze the conversation history to find these informations.
+- **RETRIEVE** the correct configuration syntax for portalFooter from the provided **Documentation Context**.
+- Place the configurations into the portalFooter.
+
+### INPUT DATA:
+Documentation Context (RAG SOURCE):
+{context}
+DEFAULT PORTAL FOOTER CONFIG:
+{default_portal_footer_config}
+User Requirements:
+{requirements}
+Conversation History:
+{history}
+This is the conversation history that contains important information about the user's preferences for the portal footer.
+
+### OUTPUT FORMAT:
+
+Return strictly the JSON object for the portalFooter configurations.
+```json
+{
+  "portalFooter": {
+      ...
+  }
+}
+
+
+
+"""
+
+TEMPLATE_TREE_CONFIG_FINDER = """
+You are a technical expert responsible *only* for populating the `tree` object in the Masterportal configuration.
+
+### CONTEXT & BOUNDARIES:
+**YOUR SOLE RESPONSIBILITY:**
+- Identify requested configs for tree from the User Requirements.
+- Conversation History contains important information about tree.
+Analyze the conversation history to find if there are any specific requirements for the tree structure.
+- **RETRIEVE** the correct configuration syntax for tree from the provided **Documentation Context**
+- Place the configurations into the tree.
+
+### INPUT DATA:
+Documentation Context (RAG SOURCE):
+{context}
+DEFAULT TREE CONFIG:
+{default_tree_config}
+User Requirements:
+{requirements}
+Conversation History:
+{history}
+This is the conversation history that contains important information about the user's preferences for the tree structure.
+
+### OUTPUT FORMAT:
+Return strictly the JSON object for the tree configurations.
+```json
+{
+  "tree": {
+      ...
+  }
+}
+
 """

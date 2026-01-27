@@ -135,9 +135,7 @@ def main():
     # Loop over the chunks in batches
     for i in range(0, len(chunks), BATCH_SIZE):
         batch = chunks[i : i + BATCH_SIZE]
-        print(
-            f"Adding batch {i//BATCH_SIZE + 1}/{len(chunks)//BATCH_SIZE + 1} ({len(batch)} chunks)..."
-        )
+        print(f"Adding batch {i//BATCH_SIZE + 1}/{len(chunks)//BATCH_SIZE + 1} ({len(batch)} chunks)...")
 
         # Add the current batch to the vector store
         vector_store.add_documents(documents=batch)

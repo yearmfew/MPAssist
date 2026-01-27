@@ -1,3 +1,4 @@
+from email.policy import default
 from regex import template
 from agents.base_agent import BaseAgent
 from utils import db_manager
@@ -6,6 +7,8 @@ from utils.template import (
     TEMPLATE_LAYER_FINDER,
     TEMPLATE_MAP_FINDER,
     TEMPLATE_MENU_CONFIG_FINDER,
+    TEMPLATE_PORTAL_FOOTER_CONFIG_FINDER,
+    TEMPLATE_TREE_CONFIG_FINDER,
 )
 
 
@@ -13,6 +16,26 @@ class ConfigurationFinder(BaseAgent):
     def __init__(self):
         super().__init__()
         db_manager._init_vector_store()
+
+    def _label_chunks(self, chunks: list, templateName: str = "", priority_map: dict = {}) -> list:
+
+        labeled_chunks = []
+
+        for chunk in chunks:
+            category = chunk.metadata.get("category", "unknown")
+
+            templateFromMetadata = chunk.metadata.get("template", "")
+
+            if templateName == templateFromMetadata:
+                priority = "CRITICAL"
+            else:
+                priority = priority_map.get(category, "LOW")
+
+            labeled_chunk = f"[CATEGORY]: {category}\n" f"[PRIORITY]: {priority}\n" f"{chunk.page_content}"
+
+            labeled_chunks.append(labeled_chunk)
+
+        return labeled_chunks
 
     def get_module_configurations(self, requirements: str) -> str:
         chunks = self.get_chunks(
@@ -31,9 +54,7 @@ class ConfigurationFinder(BaseAgent):
 
         context_text = "\n\n---\n\n".join(labelled_chunks)
 
-        default_section_configuration = self.read_file(
-            file_path="masterportal-docs/defaults/section.json"
-        )
+        default_section_configuration = self.read_file(file_path="masterportal-docs/defaults/section.json")
 
         full_prompt = self.create_prompt_template(
             template=TEMPLATE_MODULE_FINDER,
@@ -102,9 +123,7 @@ class ConfigurationFinder(BaseAgent):
 
         context_text = "\n\n---\n\n".join(labelled_chunks)
 
-        default_map_config = self.read_file(
-            file_path="masterportal-docs/defaults/map.json"
-        )
+        default_map_config = self.read_file(file_path="masterportal-docs/defaults/map.json")
 
         full_prompt = self.create_prompt_template(
             template=TEMPLATE_MAP_FINDER,
@@ -119,9 +138,7 @@ class ConfigurationFinder(BaseAgent):
 
         return mapConfigurations
 
-    def get_menu_configurations(
-        self, requirements: str, module_configurations: str
-    ) -> str:
+    def get_menu_configurations(self, requirements: str, module_configurations: str, history: list) -> str:
         chunks = self.get_chunks(
             query=requirements,
             k=4,
@@ -140,9 +157,7 @@ class ConfigurationFinder(BaseAgent):
 
         context_text = "\n\n---\n\n".join(labelled_chunks)
 
-        main_menu_default_configurations = self.read_file(
-            file_path="masterportal-docs/defaults/mainMenu.json"
-        )
+        main_menu_default_configurations = self.read_file(file_path="masterportal-docs/defaults/mainMenu.json")
 
         secondary_menu_default_configurations = self.read_file(
             file_path="masterportal-docs/defaults/secondaryMenu.json"
@@ -162,31 +177,60 @@ class ConfigurationFinder(BaseAgent):
 
         return menuConfigurations
 
-    def _label_chunks(
-        self,
-        chunks: list,
-        templateName: str = "",
-        priority_map: dict = {},
-    ) -> list:
+    def get_portal_footer_configurations(self, requirements: str, history: list) -> str:
+        chunks = self.get_chunks(
+            query=requirements,
+            k=4,
+            filter={"category": "portalFooterConfigDocumentation"},
+        )
 
-        labeled_chunks = []
+        labelled_chunks = self._label_chunks(
+            chunks,
+            templateName="TEMPLATE_PORTAL_FOOTER_CONFIG_FINDER",
+        )
 
-        for chunk in chunks:
-            category = chunk.metadata.get("category", "unknown")
+        context_text = "\n\n---\n\n".join(labelled_chunks)
 
-            templateFromMetadata = chunk.metadata.get("template", "")
+        default_portal_footer_config = self.read_file(file_path="masterportal-docs/defaults/portalFooter.json")
 
-            if templateName == templateFromMetadata:
-                priority = "CRITICAL"
-            else:
-                priority = priority_map.get(category, "LOW")
+        full_prompt = self.create_prompt_template(
+            template=TEMPLATE_PORTAL_FOOTER_CONFIG_FINDER,
+            context=context_text,
+            requirements=requirements,
+            history=history,
+            default_portal_footer_config=default_portal_footer_config,
+        )
 
-            labeled_chunk = (
-                f"[CATEGORY]: {category}\n"
-                f"[PRIORITY]: {priority}\n"
-                f"{chunk.page_content}"
-            )
+        llm_response = self.invoke_llm(full_prompt)
 
-            labeled_chunks.append(labeled_chunk)
+        portalFooterConfigurations = self.extract_json_from_response(llm_response)
 
-        return labeled_chunks
+        return portalFooterConfigurations
+
+    def get_tree_configurations(self, requirements: str, history: list) -> str:
+        chunks = self.get_chunks(
+            query=requirements,
+            k=4,
+            filter={"category": "treeConfigDocumentation"},
+        )
+
+        labelled_chunks = self._label_chunks(
+            chunks,
+            templateName="TEMPLATE_TREE_CONFIG_FINDER",
+        )
+
+        context_text = "\n\n---\n\n".join(labelled_chunks)
+        default_tree_config = self.read_file(file_path="masterportal-docs/defaults/tree.json")
+
+        full_prompt = self.create_prompt_template(
+            template=TEMPLATE_TREE_CONFIG_FINDER,
+            context=context_text,
+            requirements=requirements,
+            history=history,
+            default_tree_config=default_tree_config,
+        )
+
+        llm_response = self.invoke_llm(full_prompt)
+        treeConfigurations = self.extract_json_from_response(llm_response)
+
+        return treeConfigurations

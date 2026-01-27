@@ -117,9 +117,12 @@ class ConfigFileCreator(BaseAgent):
         layer_configurations: dict,
         map_configurations: dict,
         menu_configurations: dict,
+        portal_footer_configurations: dict,
+        tree_configurations: dict,
     ) -> str:
 
         default_config_json = self.read_file(file_path="masterportal-docs/examples/example.config.json")
+        # default_config_json = self.read_file(file_path="masterportal-docs/defaults/default.config.json")
 
         if not default_config_json:
             return "{}"
@@ -133,9 +136,11 @@ class ConfigFileCreator(BaseAgent):
             )
             return "{}"
 
+        merged_config["portalConfig"]["map"] = map_configurations["map"]
+        merged_config["portalConfig"]["portalFooter"] = portal_footer_configurations["portalFooter"]
+        merged_config["portalConfig"]["tree"] = tree_configurations["tree"]
         merged_config["portalConfig"]["mainMenu"] = menu_configurations["portalConfig"]["mainMenu"]
         merged_config["portalConfig"]["secondaryMenu"] = menu_configurations["portalConfig"]["secondaryMenu"]
-        merged_config["portalConfig"]["map"] = map_configurations
-        merged_config["layerConfig"] = layer_configurations
+        merged_config["layerConfig"] = layer_configurations["layerConfig"]
 
         return json.dumps(merged_config, indent=4)

@@ -17,9 +17,9 @@ class Orchestrator(BaseAgent):
         yield response["llm_response"]
 
         if response.get("isFinished"):
-            yield from self._generate_final_config(response["llm_response"])
+            yield from self._generate_final_config(llm_response=response["llm_response"], history=history)
 
-    def _generate_final_config(self, llm_response):
+    def _generate_final_config(self, llm_response, history):
 
         summary = self.requirement_finder.extract_requirements_as_dict(llm_response)
 
@@ -36,37 +36,47 @@ class Orchestrator(BaseAgent):
         menu_configurations = self.configuration_finder.get_menu_configurations(
             requirements=summary["requirements"],
             module_configurations=module_configurations,
+            history=history,
         )
-
         layer_configurations = self.configuration_finder.get_layer_configurations(summary["requirements"])
-
         map_configurations = self.configuration_finder.get_map_configurations(summary["requirements"])
 
-        self.print_nice(
-            title="Generated MODULE Configurations",
-            message=module_configurations,
+        portal_footer_configurations = self.configuration_finder.get_portal_footer_configurations(
+            requirements=summary["requirements"],
+            history=history,
         )
-        self.print_nice(
-            title="Generated MENU Configurations",
-            message=menu_configurations,
+
+        tree_configurations = self.configuration_finder.get_tree_configurations(
+            requirements=summary["requirements"],
+            history=history,
         )
-        self.print_nice(
-            title="Generated Layer Configurations",
-            message=layer_configurations,
-        )
+
         self.print_nice(
             title="Generated Map Configurations",
             message=map_configurations,
         )
 
-        menu_config_dict = json.loads(menu_configurations)
-        layer_config_dict = json.loads(layer_configurations)
-        map_config_dict = json.loads(map_configurations)
+        self.print_nice(
+            title="Generated PORTAL FOOTER Configurations",
+            message=portal_footer_configurations,
+        )
+
+        self.print_nice(
+            title="Generated TREE Configurations",
+            message=tree_configurations,
+        )
+
+        self.print_nice(
+            title="Generated MENU Configurations",
+            message=menu_configurations,
+        )
 
         config_json = self.config_file_creator.generate_config_json(
-            layer_configurations=layer_config_dict,
-            map_configurations=map_config_dict,
-            menu_configurations=menu_config_dict,
+            layer_configurations=json.loads(layer_configurations),
+            map_configurations=json.loads(map_configurations),
+            menu_configurations=json.loads(menu_configurations),
+            portal_footer_configurations=json.loads(portal_footer_configurations),
+            tree_configurations=json.loads(tree_configurations),
         )
 
         yield f"\n\n Here is config.json: \n\n```json\n{config_json}\n```"
