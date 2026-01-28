@@ -1,8 +1,10 @@
 from agents.base_agent import BaseAgent
-from utils.template import TEMPLATE_CONFIG_GENERATOR, TEMPLATE_STRUCTURE_FIXER
+from utils.template import TEMPLATE_CONFIG_GENERATOR
 from utils import db_manager
 from agents.halisunation_checker import HalisunationChecker
 from pathlib import Path
+import json
+import re
 
 
 class ConfigFileCreator(BaseAgent):
@@ -31,10 +33,7 @@ class ConfigFileCreator(BaseAgent):
             Content of example.config.json as string
         """
         base_config_path = (
-            Path(__file__).resolve().parents[2]
-            / "masterportal-docs"
-            / "examples"
-            / "example.config.json"
+            Path(__file__).resolve().parents[2] / "masterportal-docs" / "examples" / "example.config.json"
         )
 
         try:
@@ -47,198 +46,101 @@ class ConfigFileCreator(BaseAgent):
             )
             return ""
 
-    def _label_chunks(self, chunks: list) -> list:
-        PRIORITY_MAP = {
-            "docs_for_modules": "LOW",
-            "documentation": "LOW",
-            "example": "CRITICAL",
-        }
+    def _label_chunks(
+        self,
+        chunks: list,
+        templateName: str = "",
+        priority_map: dict = {},
+    ) -> list:
+
         labeled_chunks = []
 
         for chunk in chunks:
             category = chunk.metadata.get("category", "unknown")
 
-            agents_str = chunk.metadata.get("agents", "")
-            agents = agents_str.split(",") if agents_str else []
-            priority = (
-                "CRITICAL"
-                if "config_file_creator" in agents
-                else PRIORITY_MAP.get(category, "LOW")
-            )
+            templateFromMetadata = chunk.metadata.get("template", "")
 
-            includes_str = chunk.metadata.get("includes", "")
-            includes = includes_str.split(",") if includes_str else []
-            labeled_chunk = f"[CATEGORY: {category}] [PRIORITY: {priority}] [INCLUDES: {', '.join(includes)}]\n{chunk.page_content}"
+            if templateName == templateFromMetadata:
+                priority = "CRITICAL"
+            else:
+                priority = priority_map.get(category, "LOW")
+
+            labeled_chunk = f"[CATEGORY]: {category}\n" f"[PRIORITY]: {priority}\n" f"{chunk.page_content}"
+
             labeled_chunks.append(labeled_chunk)
 
         return labeled_chunks
 
-    def generate_config_file(self, module_configurations: str) -> str:
-        if db_manager._retriever is not None:
-            example_docs = self.get_chunks(
-                query=module_configurations,
-                k=4,
-                filter={"category": "example"},
-            )
+    def generate_config_file(
+        self,
+        module_configurations: str,
+        layer_configurations: str,
+        map_configurations: str,
+        menu_configurations: str,
+    ) -> str:
 
-            remaining_k = max(0, 8 - len(example_docs))
-            if remaining_k > 0:
-                doc_docs = self.get_chunks(
-                    query=module_configurations,
-                    k=remaining_k,
-                    filter={"category": "documentation"},
-                )
-            else:
-                doc_docs = []
+        chunks_for_example_templates = self.get_chunks(
+            query="config.json",
+            k=4,
+            filter={"category": "example"},
+        )
 
-            all_docs = example_docs + doc_docs
-            labeled_chunks = self._label_chunks(all_docs)
-            context = "\n\n---\n\n".join(labeled_chunks)
-        else:
-            context = "(No additional context available)"
+        labeled_chunks_for_example_templates = self._label_chunks(
+            chunks_for_example_templates,
+            priority_map={
+                "example": "CRITICAL",
+            },
+        )
 
-        # Build comprehensive context with base config for editing
-        # context = f"""
-        #     EXAMPLE.CONFIG.JSON TEMPLATE:
-        #     ```json
-        #     {self._load_example_template()}
-        #     ```
-        #     This is a working, valid, example Masterportal configuration. Also called "example.config.json".
+        module_configurations_context = "\n\n---\n\n".join(module_configurations)
+        layer_configurations_context = "\n\n---\n\n".join(layer_configurations)
+        map_configurations_context = "\n\n---\n\n".join(map_configurations)
+        menu_configurations_context = "\n\n---\n\n".join(menu_configurations)
 
-        #     SELECTED TOOLS & LAYERS:
-        #     {module_configurations}
-
-        #     RELEVANT DOCUMENTATION (with priority labels):
-        #     {context}
-        # """
-
-        self.print_nice(module_configurations, title="Module config")
+        example_template_context = "\n\n---\n\n".join(labeled_chunks_for_example_templates)
 
         full_prompt = self.create_prompt_template(
             template=TEMPLATE_CONFIG_GENERATOR,
-            context=context,
-            example_template=self._load_example_template(),
-            module_configurations=module_configurations,
+            context=example_template_context,
+            module_configurations=module_configurations_context,
+            layer_configurations=layer_configurations_context,
+            map_configurations=map_configurations_context,
+            menu_configurations=menu_configurations_context,
         )
 
         config_output = self.invoke_llm(full_prompt)
 
         return config_output
 
-    # def check_halisunation(self, current_config: str) -> str:
-    #     """
-    #     Validate and fix structural errors in config.json.
+    def generate_config_json(
+        self,
+        layer_configurations: dict,
+        map_configurations: dict,
+        menu_configurations: dict,
+        portal_footer_configurations: dict,
+        tree_configurations: dict,
+    ) -> str:
 
-    #     Args:
-    #         current_config: Initial config.json from LLM
+        default_config_json = self.read_file(file_path="masterportal-docs/examples/example.config.json")
+        # default_config_json = self.read_file(file_path="masterportal-docs/defaults/default.config.json")
 
-    #     Returns:
-    #         Validated and potentially fixed config.json as string
-    #     """
+        if not default_config_json:
+            return "{}"
 
-    #     # Validation and fixing loop (max 3 attempts)
-    #     max_retries = 3
+        try:
+            merged_config = json.loads(default_config_json)
+        except json.JSONDecodeError:
+            self.print_nice(
+                title="❌ Error: Failed to parse example.config.json",
+                message="The file is not valid JSON.",
+            )
+            return "{}"
 
-    #     for attempt in range(max_retries):
-    #         # Validate structure using HalisunationChecker
-    #         structure_errors = self.halisunation_checker._validate_structure(
-    #             self._parse_config(current_config)
-    #         )
+        merged_config["portalConfig"]["map"] = map_configurations["map"]
+        merged_config["portalConfig"]["portalFooter"] = portal_footer_configurations["portalFooter"]
+        merged_config["portalConfig"]["tree"] = tree_configurations["tree"]
+        merged_config["portalConfig"]["mainMenu"] = menu_configurations["portalConfig"]["mainMenu"]
+        merged_config["portalConfig"]["secondaryMenu"] = menu_configurations["portalConfig"]["secondaryMenu"]
+        merged_config["layerConfig"] = layer_configurations["layerConfig"]
 
-    #         if not structure_errors:
-    #             self.print_nice(
-    #                 message=f"Validation passed on attempt {attempt + 1}",
-    #                 title="VALIDATION SUCCESS",
-    #             )
-    #             return current_config
-
-    #         errors_msg = f"Validation failed on attempt {attempt + 1}: {len(structure_errors)} error(s) found\n\nErrors:\n"
-    #         for err in structure_errors:
-    #             errors_msg += f"  - {err}\n"
-
-    #         self.print_nice(message=errors_msg, title="VALIDATION FAILED")
-
-    #         self.print_nice(
-    #             message=current_config, title=f"CONFIG.JSON (Attempt {attempt + 1})"
-    #         )
-
-    #         if attempt < max_retries - 1:
-    #             self.print_nice(
-    #                 message="Attempting to fix structural errors...", title="FIXING"
-    #             )
-    #             current_config = self.fix_structure(current_config, structure_errors)
-    #         else:
-    #             self.print_nice(
-    #                 message=f"Maximum retries ({max_retries}) reached. Returning config with errors.",
-    #                 title="WARNING",
-    #             )
-
-    #     return current_config
-
-    # def _parse_config(self, config_str: str) -> dict:
-    #     """
-    #     Parse config.json string and extract the JSON object.
-
-    #     Args:
-    #         config_str: Raw LLM output containing config.json
-
-    #     Returns:
-    #         Parsed config dictionary
-    #     """
-    #     import json
-
-    #     # Try to extract JSON from markdown code blocks
-    #     if "```json" in config_str:
-    #         start = config_str.find("```json") + 7
-    #         end = config_str.find("```", start)
-    #         json_str = config_str[start:end].strip()
-    #     elif "```" in config_str:
-    #         start = config_str.find("```") + 3
-    #         end = config_str.find("```", start)
-    #         json_str = config_str[start:end].strip()
-    #     else:
-    #         # Try to find JSON object directly
-    #         json_str = config_str.strip()
-
-    #     try:
-    #         return json.loads(json_str)
-    #     except json.JSONDecodeError:
-    #         # If parsing fails, return empty dict
-    #         return {}
-
-    # def fix_structure(self, current_config: str, validation_errors: list) -> str:
-    #     """
-    #     Fix structural validation errors in a config.json.
-
-    #     This method is called when HalisunationChecker detects structural issues.
-    #     It uses only the example_template to fix the structure without changing content.
-
-    #     Args:
-    #         current_config: The config.json with structural errors
-    #         validation_errors: List of error messages from HalisunationChecker
-
-    #     Returns:
-    #         Fixed config.json as string
-    #     """
-
-    #     # Extract JSON from current_config if it's wrapped in markdown
-    #     parsed_config = self._parse_config(current_config)
-    #     import json
-
-    #     clean_config = json.dumps(parsed_config, indent=2)
-
-    #     errors_text = "\n".join(
-    #         [f"{i+1}. {err}" for i, err in enumerate(validation_errors)]
-    #     )
-
-    #     full_prompt = self.createPromptTemplate(
-    #         template=TEMPLATE_STRUCTURE_FIXER,
-    #         context="",
-    #         example_template=self.example_template,
-    #         current_config=clean_config,
-    #         validation_errors=errors_text,
-    #     )
-
-    #     fixed_config = self.invoke_llm(full_prompt)
-
-    #     return fixed_config
+        return json.dumps(merged_config, indent=4)
