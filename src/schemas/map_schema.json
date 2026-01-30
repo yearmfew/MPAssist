@@ -1,0 +1,979 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "map": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "baselayerSwitcher": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "active": {
+                            "type": "boolean"
+                        },
+                        "activatedExpandable": {
+                            "type": "boolean"
+                        },
+                        "singleBaseLayer": {
+                            "type": "boolean"
+                        },
+                        "visibleBaselayerIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "controls": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "backForward": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "iconForward": {
+                                            "type": "string"
+                                        },
+                                        "iconBack": {
+                                            "type": "string"
+                                        },
+                                        "supportedDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "supportedMapModes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "button3d": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "icon2d": {
+                                            "type": "string"
+                                        },
+                                        "icon3d": {
+                                            "type": "string"
+                                        },
+                                        "supportedDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "supportedMapModes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "expandable": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            ]
+                        },
+                        "freeze": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "icon": {
+                                            "type": "string"
+                                        },
+                                        "supportedDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "supportedMapModes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "fullScreen": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "iconArrow": {
+                                            "type": "string"
+                                        },
+                                        "iconExit": {
+                                            "type": "string"
+                                        },
+                                        "newTabFromFrame": {
+                                            "type": "boolean"
+                                        },
+                                        "supportedDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "supportedMapModes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "orientation": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "customPosition": {
+                                    "type": "string"
+                                },
+                                "iconGeolocate": {
+                                    "type": "string"
+                                },
+                                "iconGeolocatePOI": {
+                                    "type": "string"
+                                },
+                                "iconGeolocationMarker": {
+                                    "type": "string"
+                                },
+                                "iFrameGeolocationEnabled": {
+                                    "type": "boolean"
+                                },
+                                "onlyFilteredFeatures": {
+                                    "type": "boolean"
+                                },
+                                "poiDistances": {
+                                    "oneOf": [
+                                        {
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "supportedDevices": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "supportedMapModes": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "zoomMode": {
+                                    "type": "string",
+                                    "enum": [
+                                        "once",
+                                        "always"
+                                    ]
+                                }
+                            }
+                        },
+                        "rotation": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "compass2d": {
+                                            "type": "boolean"
+                                        },
+                                        "compass3d": {
+                                            "type": "boolean"
+                                        },
+                                        "moveDistance": {
+                                            "type": "number"
+                                        },
+                                        "resetRotationIcon": {
+                                            "type": "string"
+                                        },
+                                        "rotateCounterClockwiseIcon": {
+                                            "type": "string"
+                                        },
+                                        "rotateClockwiseIcon": {
+                                            "type": "string"
+                                        },
+                                        "rotationIcons": {
+                                            "type": "boolean"
+                                        },
+                                        "rotationAngle": {
+                                            "type": "number"
+                                        },
+                                        "showResetRotation": {
+                                            "type": "boolean"
+                                        },
+                                        "showResetRotationAlways": {
+                                            "type": "boolean"
+                                        },
+                                        "supportedDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "supportedMapModes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "startModule": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "mainMenu": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "icon": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "secondaryMenu": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "icon": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "supportedDevices": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "supportedMapModes": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "tiltView": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "tiltDownIcon": {
+                                            "type": "string"
+                                        },
+                                        "tiltUpIcon": {
+                                            "type": "string"
+                                        },
+                                        "supportedDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "supportedMapModes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "totalView": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "icon": {
+                                            "type": "string"
+                                        },
+                                        "tableIcon": {
+                                            "type": "string"
+                                        },
+                                        "supportedDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "supportedMapModes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "zoom": {
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "iconIn": {
+                                            "type": "string"
+                                        },
+                                        "iconOut": {
+                                            "type": "string"
+                                        },
+                                        "supportedDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "supportedMapModes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "featureViaURL": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "epsg": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                }
+                            ]
+                        },
+                        "layers": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "geometryType": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Point",
+                                            "LineString",
+                                            "Polygon",
+                                            "MultiPoint",
+                                            "MultiLineString",
+                                            "MultiPolygon"
+                                        ]
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "styleId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "zoomTo": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "getFeatureInfo": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "icon": {
+                            "type": "string"
+                        },
+                        "coloredHighlighting3D": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "color": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "highlightVectorRules": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "fill": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "color": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "minItems": 4,
+                                            "maxItems": 4
+                                        }
+                                    }
+                                },
+                                "image": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "scale": {
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "stroke": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "width": {
+                                            "type": "number"
+                                        },
+                                        "color": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "minItems": 4,
+                                            "maxItems": 4
+                                        }
+                                    }
+                                },
+                                "text": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "scale": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "hideMapMarkerOnVectorHighlight": {
+                            "type": "boolean"
+                        },
+                        "highlightVectorRulesPointLine": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "stroke": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "width": {
+                                            "type": "number"
+                                        },
+                                        "color": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "minItems": 4,
+                                            "maxItems": 4
+                                        }
+                                    }
+                                },
+                                "image": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "scale": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "centerMapToClickPoint": {
+                            "type": "boolean"
+                        },
+                        "showPolygonMarkerForWMS": {
+                            "type": "boolean"
+                        },
+                        "menuSide": {
+                            "type": "string",
+                            "enum": [
+                                "mainMenu",
+                                "secondaryMenu"
+                            ]
+                        }
+                    }
+                },
+                "layerPills": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "active": {
+                            "type": "boolean"
+                        },
+                        "mobileOnly": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "map3dParameter": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "camera": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "altitude": {
+                                    "type": "number"
+                                },
+                                "cameraPosition": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    },
+                                    "minItems": 3,
+                                    "maxItems": 3
+                                },
+                                "heading": {
+                                    "type": "number"
+                                },
+                                "pitch": {
+                                    "type": "number"
+                                },
+                                "roll": {
+                                    "type": "number"
+                                },
+                                "tilt": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "fog": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "density": {
+                                    "type": "number"
+                                },
+                                "screenSpaceErrorFactor": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "fxaa": {
+                            "type": "boolean"
+                        },
+                        "globe": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "enableLighting": {
+                                    "type": "boolean"
+                                },
+                                "maximumScreenSpaceError": {
+                                    "type": "number"
+                                },
+                                "tileCacheSize": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "maximumScreenSpaceError": {
+                            "type": "number"
+                        },
+                        "tileCacheSize": {
+                            "type": "number"
+                        },
+                        "shadowTime": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "mapMarker": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "pointStyleId": {
+                            "type": "string"
+                        },
+                        "polygonStyleId": {
+                            "type": "string"
+                        },
+                        "additionalPolygonStyleId": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "mapView": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "backgroundImage": {
+                            "type": "string"
+                        },
+                        "epsg": {
+                            "type": "string"
+                        },
+                        "extent": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            },
+                            "minItems": 4,
+                            "maxItems": 4
+                        },
+                        "mapInteractions": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "interactionModes": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "dragPan": {
+                                            "type": "boolean"
+                                        },
+                                        "altShiftDragRotate": {
+                                            "type": "boolean"
+                                        },
+                                        "pinchRotate": {
+                                            "type": "boolean"
+                                        },
+                                        "pinchZoom": {
+                                            "type": "boolean"
+                                        },
+                                        "dragZoom": {
+                                            "type": "boolean"
+                                        },
+                                        "mouseWheelZoom": {
+                                            "type": "boolean"
+                                        },
+                                        "doubleClickZoom": {
+                                            "type": "boolean"
+                                        },
+                                        "twoFingerPan": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "keyboardEventTarget": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "options": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "resolution": {
+                                        "type": "number"
+                                    },
+                                    "scale": {
+                                        "type": "number"
+                                    },
+                                    "zoomLevel": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        },
+                        "resolution": {
+                            "type": "number"
+                        },
+                        "resolutions": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "startCenter": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            },
+                            "minItems": 2,
+                            "maxItems": 2
+                        },
+                        "startResolution": {
+                            "type": "number"
+                        },
+                        "startZoomLevel": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "mouseHover": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "infoText": {
+                            "type": "string"
+                        },
+                        "numFeaturesToShow": {
+                            "type": "integer"
+                        },
+                        "fontFamily": {
+                            "type": "string"
+                        },
+                        "fontStyle": {
+                            "type": "string"
+                        },
+                        "fontWeight": {
+                            "type": "string"
+                        },
+                        "fontSize": {
+                            "type": "string"
+                        },
+                        "fontColor": {
+                            "type": "string"
+                        },
+                        "titleFontFamily": {
+                            "type": "string"
+                        },
+                        "titleFontStyle": {
+                            "type": "string"
+                        },
+                        "titleFontWeight": {
+                            "type": "string"
+                        },
+                        "titleFontSize": {
+                            "type": "string"
+                        },
+                        "titleFontColor": {
+                            "type": "string"
+                        },
+                        "infoBorderRadius": {
+                            "type": "integer"
+                        },
+                        "lineHeight": {
+                            "type": "float"
+                        },
+                        "highlightOnHover": {
+                            "type": "boolean"
+                        },
+                        "highlightVectorRulesPolygon": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "fill": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "color": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "minItems": 4,
+                                            "maxItems": 4
+                                        }
+                                    }
+                                },
+                                "stroke": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "width": {
+                                            "type": "number"
+                                        },
+                                        "color": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "minItems": 4,
+                                            "maxItems": 4
+                                        }
+                                    }
+                                },
+                                "zoomLevel": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "highlightVectorRulesPointLine": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "fill": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "color": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "minItems": 4,
+                                            "maxItems": 4
+                                        }
+                                    }
+                                },
+                                "stroke": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "width": {
+                                            "type": "number"
+                                        },
+                                        "color": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            },
+                                            "minItems": 4,
+                                            "maxItems": 4
+                                        }
+                                    }
+                                },
+                                "image": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "scale": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "startingMapMode": {
+                    "type": "string",
+                    "enum": [
+                        "2D",
+                        "3D"
+                    ]
+                },
+                "zoomTo": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "addFeatures": {
+                                "type": "boolean"
+                            },
+                            "allowedValues": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "id": {
+                                "type": "string"
+                            },
+                            "layerId": {
+                                "type": "string"
+                            },
+                            "property": {
+                                "type": "string"
+                            },
+                            "styleId": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

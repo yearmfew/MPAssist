@@ -10,6 +10,8 @@ backups/
 masterportal-docs-short/
 MPAssist.code-workspace
 portalconfigs/
+cleanJson/
+
 # Python cache
 __pycache__/
 *.py[cod]

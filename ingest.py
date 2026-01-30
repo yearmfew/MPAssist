@@ -25,7 +25,7 @@ def add_custom_metadata(docs):
     for doc in docs:
         source_path = doc.metadata.get("source", "")
 
-        if "examples" in source_path in source_path:
+        if "examples" in source_path:
             doc.metadata["category"] = "example"
 
         # cleanedDocs files
