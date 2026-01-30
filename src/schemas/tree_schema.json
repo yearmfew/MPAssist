@@ -1,0 +1,215 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "tree": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "addLayerButton": {
+                    "oneOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "active": {
+                                    "type": "boolean"
+                                },
+                                "searchBar": {
+                                    "oneOf": [
+                                        {
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "active": {
+                                                    "type": "boolean"
+                                                },
+                                                "searchInterfaceInstances": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "additionalProperties": false,
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string"
+                                                            },
+                                                            "searchCategory": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "filter": {
+                                                    "type": "boolean"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                "buttonTitle": {
+                                    "type": "string"
+                                },
+                                "searchInterfaceInstanceId": {
+                                    "type": "string"
+                                },
+                                "searchCategory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "key": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "active": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                "highlightedFeatures": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "active": {
+                            "type": "boolean"
+                        },
+                        "layerName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "layerIDsToIgnore": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "layerIDsToStyle": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "visibility": {
+                                "type": "boolean"
+                            },
+                            "styles": {
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                ]
+                            },
+                            "name": {
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                ]
+                            },
+                            "legendURL": {
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "metaIDsToIgnore": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "metaIDsToMerge": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "rasterLayerDefaultInfoFormat": {
+                    "type": "string"
+                },
+                "showFolderPath": {
+                    "type": "boolean"
+                },
+                "singleBaselayer": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "auto"
+                    ]
+                },
+                "validLayerTypesAutoTree": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "hideBackgroundsHeader": {
+                    "type": "boolean"
+                },
+                "backgroundsHeaderText": {
+                    "type": "string"
+                },
+                "hideDatalayerHeader": {
+                    "type": "boolean"
+                },
+                "datalayerHeaderText": {
+                    "type": "string"
+                },
+                "subMenuContactButton": {
+                    "type": "boolean"
+                },
+                "allowBaselayerDrag": {
+                    "type": "boolean"
+                },
+                "contactPublisherName": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

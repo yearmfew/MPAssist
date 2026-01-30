@@ -9,3 +9,4 @@ EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM
 IONOS_API_BASE_URL = os.getenv("IONOS_API_BASE_URL", "")
 IONOS_API_TOKEN = SecretStr(os.getenv("IONOS_API_TOKEN", ""))
 LLM_MODEL = os.getenv("LLM_MODEL", "")
+K = int(4)

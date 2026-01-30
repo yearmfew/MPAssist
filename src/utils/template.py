@@ -26,7 +26,7 @@ These informations are:
 
 5. **Finish Efficiently:** After gathering the core requirements:
    - Present the numbered list of requirements
-   - Ask: "If you approve this informations for your portal, we can start to generate the config.json. Would you like to proceed?"
+   - Ask: "If you approve this information for your portal, we can start to generate the config.json. Would you like to proceed?"
    - If the user is satisfied, provide the final summary with [REQUIREMENTS_READY] marker and say "generating the config.json now..."
 
 ### CONVERSATION STYLE:
@@ -74,7 +74,11 @@ Conversation:
 
 Return ONLY valid JSON in this exact structure (no markdown, no extra text):
 {
-    "requirements": [...]
+    "requirements": [
+      "requirement 1",
+      "requirement 2",
+      ...
+      ]
 }
 
 Your Response:
@@ -150,50 +154,54 @@ Return strictly the JSON object for the menu configurations.
 
 TEMPLATE_LAYER_FINDER = """
 ### ROLE: MASTERPORTAL LAYER SELECTION EXPERT
-You are a technical specialist who knows every layer type and component available in the Masterportal ecosystem.
+You are a specialized technical expert in Masterportal's `layerConfig` structure. 
+Your goal is to identify and recommend the specific Masterportal layer types and their configurations based on user requirements.
 
-### YOUR PRIMARY TASK:
-Given a set of user requirements, identify and recommend the specific Masterportal layer types and their configurations
+### INPUT DATA:
+DOCUMENTATION CONTEXT (RAG Source):
+{context}
+Use this to understand valid layer types and configurations.
 
-### HOW TO TREAT CONTEXT LABELS:
-In the "CONTEXT" section, you will see headers like [PRIORITY: ...], [CATEGORY: ...], and [INCLUDES: ...].
-**CRITICAL - Use this priority order:**
-1. **PRIORITY: CRITICAL:** This is the PRIMARY source for all layer definitions. Use these chunks FIRST and ALWAYS for:
-   - Layer IDs and names
-   - Layer parameters and configurations
-   - Layer capabilities and features
-2. CATEGORY: Shows the category of the chunk. Check the category to understand the type of information provided.
-3. INCLUDES: This lists which parts of `config.json` the chunk is relevant to (for example: "layerConfig").
+DEFAULT LAYER CONFIGURATION:
+{default_layer_config}
+This is your starting foundation. It contains example layers and default settings.
 
-**Routing Rule:** When looking for layer/type information, ALWAYS check PRIORITY: CRITICAL chunks first.
-Only use other chunks if PRIORITY: CRITICAL doesn't have the answer.
-Use chunks in order of PRIORITY: CRITICAL, HIGH, MEDIUM, LOW.
+USER REQUIREMENTS:
+{requirements}
+These are the specific layers requested by the user.
 
-### YOUR ANALYSIS PROCESS:
-1. **Requirement Analysis:**
-   - Which masterportal layer is needed?
-   - Search it in PRIORITY: CRITICAL chunks first
-2. **Layer Mapping:** Identify the layers needed from the Context:
-   - Exact layer IDs (e.g., "WMS", "WMTS", "Vector")
-   - Required layer configurations/parameters
-3. **Validation:** Ensure all selected layers exist in the Context
-   - If a requested layer is not found, note it as "Missing/Unavailable"
+
+### YOUR TASK:
+1. ANALYZE the provided USER REQUIREMENTS.
+2. IDENTIFY which Masterportal layer types are being requested.
+3. MAP the requested layer types to their correct configuration syntax using the DOCUMENTATION CONTEXT.
+4. GENERATE the JSON configuration **only** using the DEFAULT LAYER CONFIGURATION as a base.
+5. VALIDATE: Ensure all requested layer types exist in the Context
+
+### ANALYSIS PROCESS (CHAIN OF THOUGHT):
+For each requirement/keyword:
+1. *"Does this refer to a Masterportal layer type?"*
+   - NO -> Add to "Missing/Unavailable" list.
+   - YES -> Proceed to step 2.
+2. *"What is the correct configuration syntax for this layer type?"*
+   - Look it up in the Documentation Context.
+3. *"Does this require changing the Default Layer Config?"*
+   - YES -> **OVERWRITE** the specific layer in the Default Config.
+   - NO -> **KEEP** the Default Config layer.
 
 ### OUTPUT FORMAT:
-**Summary:**
-- **List of Layers Configurations**: list of layer Configurations
-- **Missing/Unavailable:** list any requested layers not in Context
-- **Configuration of Layers**: detailed configurations for each layer in JSON format
-
-Context (Available Modules and Documentation):
-{context}
-
-User Requirements:
-{requirements}
-
-Find layer configurations for requirements and provide detailed configurations of the layers.
-
-Layer Configuration:
+Provide the output in two parts:
+**Part 1: Retrieval Log**
+- Missing/Unavailable: list any requested layer types not in Context
+**Part 2: JSON Configuration**
+Return strictly the JSON object for `layerConfig`.
+```json
+{
+  "layerConfig": {
+      ...
+  }
+}
+```
 
 """
 
@@ -260,10 +268,11 @@ Provide the output in two parts:
 
 **Part 2: JSON Configuration**
 Return strictly the JSON object for `map`.
+CRITICAL: Do not add inline comments to json.
 ```json
 {
   "map": {
-      ...
+  ...
   }
 }
 """
@@ -277,7 +286,7 @@ You are a technical expert responsible *only* for populating the `mainMenu` and 
 - Identify requested configs for mainMenu and secondaryMenu from the User Requirements.
 - Conversation History contains important information about mainMenu.
 It contains informations about title key in mainMenu. 
-For text use the name of the portal if it is stated in the conversation history, otherwise generate a name based on conversation history.
+For text should be created using the  name of the portal if it is stated in the conversation history, otherwise generate a name based on conversation history.
 For tooltip generate a short description of the portal based on the conversation history.
 Analyze the conversation history to find these informations.
 
@@ -331,7 +340,7 @@ Part 1: Retrieval Log
 
 Part 2: JSON Configuration
 - Configuration of the mainMenu and secondaryMenu: return strictly the json object for the mainMenu and secondaryMenu configurations
-
+CRITICAL: Do not add inline comments to json.
 ```json
 {
   "portalConfig": {
@@ -402,6 +411,8 @@ Before output ensure that all CRITICAL REQUIREMENTS are met.
    - `portalConfig.mainMenu` and `portalConfig.secondaryMenu` must be IDENTICAL to MENU CONFIGURATIONS
    - If ANY field differs, discard and use the exact user-provided structure
 
+### OUTPUT FORMAT:
+Return strictly the final merged JSON configuration.
 ```json
 {
   "portalConfig": {
@@ -439,6 +450,7 @@ This is the conversation history that contains important information about the u
 ### OUTPUT FORMAT:
 
 Return strictly the JSON object for the portalFooter configurations.
+CRITICAL: Do not add inline comments to json.
 ```json
 {
   "portalFooter": {
@@ -446,18 +458,16 @@ Return strictly the JSON object for the portalFooter configurations.
   }
 }
 
-
-
 """
 
 TEMPLATE_TREE_CONFIG_FINDER = """
-You are a technical expert responsible *only* for populating the `tree` object in the Masterportal configuration.
+You are a technical expert responsible *only* for populating the `portalConfig.tree` object in the Masterportal configuration.
 
 ### CONTEXT & BOUNDARIES:
 **YOUR SOLE RESPONSIBILITY:**
-- Identify requested configs for tree from the User Requirements.
+- Identify requested configs for tree from the User Requirements, using Documentation Context.
 - Conversation History contains important information about tree.
-Analyze the conversation history to find if there are any specific requirements for the tree structure.
+Analyze the conversation history to find if there are any specific informations for the tree structure.
 - **RETRIEVE** the correct configuration syntax for tree from the provided **Documentation Context**
 - Place the configurations into the tree.
 
@@ -474,11 +484,43 @@ This is the conversation history that contains important information about the u
 
 ### OUTPUT FORMAT:
 Return strictly the JSON object for the tree configurations.
+CRITICAL: Do not add inline comments to json.
 ```json
 {
   "tree": {
       ...
   }
+}
+
+"""
+
+TEMPLATE_HALISUNATION_FIXER = """
+ROLE: MASTERPORTAL CONFIGURATION ERROR CORRECTOR
+You are a technical expert responsible for correcting errors in configurations based on given error reports and config-schema.
+
+### INPUT DATA:
+1. ERROR REPORT:
+{errors}
+2. MASTERPORTAL CONFIGURATION:
+{configuration_to_fix}
+4. DEFAULT CONFIG:
+{default_config}
+5. DOCUMENTATION:
+{context}
+
+
+### YOUR TASK:
+1. ANALYZE the ERROR REPORT to understand the issues in the configuration.
+2. If there is a valid_properties field in the error report, use it to identify what properties are valid for the specific path.
+3. If there is no valid_properties field, refer to DOCUMENTATION to determine the correct structure and properties.
+4. CORRECT the CONFIGURATION TO FIX by making necessary adjustments to resolve all reported errors.
+
+### OUTPUT FORMAT:
+Return strictly the corrected JSON configuration in the form of DEFAULT CONFIG.
+
+```json
+{
+   ...
 }
 
 """

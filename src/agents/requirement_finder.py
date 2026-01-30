@@ -5,6 +5,7 @@ from typing import List, Dict
 from agents.base_agent import BaseAgent
 from utils import db_manager
 from utils.template import TEMPLATE_REQUIREMENT_GATHERER, TEMPLATE_EXTRACT_REQUIREMENTS
+from utils.settings import K
 
 
 class RequirementFinder(BaseAgent):
@@ -12,13 +13,11 @@ class RequirementFinder(BaseAgent):
         super().__init__()
         db_manager._init_vector_store()
 
-    def _find_requirements(
-        self, user_input: str, conversation_history: list[dict]
-    ) -> str:
+    def _find_requirements(self, user_input: str, conversation_history: list[dict]) -> str:
 
         chunks = self.get_chunks(
             query=str(conversation_history),
-            k=4,
+            k=K,
             filter={"category": "mainDocumentation"},
         )
 
@@ -58,16 +57,10 @@ class RequirementFinder(BaseAgent):
             if not clean_item.lower().startswith(("these requirements", "ready to")):
                 requirements.append(clean_item)
 
-        return (
-            requirements if requirements else ["User request captured in conversation"]
-        )
+        return requirements if requirements else ["User request captured in conversation"]
 
-    def chat_to_find_requirements(
-        self, user_input: str, history: List[Dict]
-    ) -> Dict[str, object]:
-        llm_response = self._find_requirements(
-            user_input=user_input, conversation_history=history
-        )
+    def chat_to_find_requirements(self, user_input: str, history: List[Dict]) -> Dict[str, object]:
+        llm_response = self._find_requirements(user_input=user_input, conversation_history=history)
 
         result: Dict[str, object] = {
             "llm_response": llm_response,
@@ -80,9 +73,7 @@ class RequirementFinder(BaseAgent):
         return result
 
     def extract_requirements_as_dict(self, summary: str) -> dict:
-        full_prompt = self.create_prompt_template(
-            template=TEMPLATE_EXTRACT_REQUIREMENTS, context=summary
-        )
+        full_prompt = self.create_prompt_template(template=TEMPLATE_EXTRACT_REQUIREMENTS, context=summary)
         llm_response = self.invoke_llm(full_prompt)
 
         try:
@@ -115,11 +106,7 @@ class RequirementFinder(BaseAgent):
             else:
                 priority = priority_map.get(category, "LOW")
 
-            labeled_chunk = (
-                f"[CATEGORY]: {category}\n"
-                f"[PRIORITY]: {priority}\n"
-                f"{chunk.page_content}"
-            )
+            labeled_chunk = f"[CATEGORY]: {category}\n" f"[PRIORITY]: {priority}\n" f"{chunk.page_content}"
             labeled_chunks.append(labeled_chunk)
 
         return labeled_chunks
