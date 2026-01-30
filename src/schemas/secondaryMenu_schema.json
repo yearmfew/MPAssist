@@ -1,0 +1,813 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "secondaryMenu": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "currentComponent": {
+                    "type": "string"
+                },
+                "expanded": {
+                    "type": "boolean"
+                },
+                "width": {
+                    "type": "string"
+                },
+                "showDescription": {
+                    "type": "boolean"
+                },
+                "showHeaderIcon": {
+                    "type": "boolean"
+                },
+                "searchBar": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "minCharacters": {
+                            "type": "integer"
+                        },
+                        "placeholder": {
+                            "type": "string"
+                        },
+                        "coloredHighlighting3D": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "color": {
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "searchInterfaces": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "serviceId": {
+                                        "type": "string"
+                                    },
+                                    "searchInterfaceId": {
+                                        "type": "string"
+                                    },
+                                    "requestType": {
+                                        "type": "string"
+                                    },
+                                    "searchStringAttribute": {
+                                        "type": "string"
+                                    },
+                                    "resultCount": {
+                                        "type": "integer"
+                                    },
+                                    "showGeographicIdentifier": {
+                                        "type": "boolean"
+                                    },
+                                    "searchAddress": {
+                                        "type": "boolean"
+                                    },
+                                    "searchStreets": {
+                                        "type": "boolean"
+                                    },
+                                    "searchHouseNumbers": {
+                                        "type": "boolean"
+                                    },
+                                    "searchDistricts": {
+                                        "type": "boolean"
+                                    },
+                                    "searchParcels": {
+                                        "type": "boolean"
+                                    },
+                                    "searchStreetKey": {
+                                        "type": "boolean"
+                                    },
+                                    "epsg": {
+                                        "type": "string"
+                                    },
+                                    "extent": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "geoSearchServiceId": {
+                                        "type": "string"
+                                    },
+                                    "suggestServiceId": {
+                                        "type": "string"
+                                    },
+                                    "filter": {
+                                        "type": "string"
+                                    },
+                                    "geosearchUrl": {
+                                        "type": "string"
+                                    },
+                                    "suggestUrl": {
+                                        "type": "string"
+                                    },
+                                    "classes": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string"
+                                                        },
+                                                        "icon": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "limit": {
+                                        "type": "number"
+                                    },
+                                    "states": {
+                                        "type": "string"
+                                    },
+                                    "minScore": {
+                                        "type": "number"
+                                    },
+                                    "payload": {
+                                        "type": "object"
+                                    },
+                                    "responseEntryPath": {
+                                        "type": "string"
+                                    },
+                                    "hitIcon": {
+                                        "type": "string"
+                                    },
+                                    "hitMap": {
+                                        "type": "object"
+                                    },
+                                    "hitTemplate": {
+                                        "type": "string"
+                                    },
+                                    "hitType": {
+                                        "type": "string"
+                                    },
+                                    "definitions": {
+                                        "type": "array"
+                                    },
+                                    "geometryName": {
+                                        "type": "string"
+                                    },
+                                    "icon": {
+                                        "type": "string"
+                                    },
+                                    "maxFeatures": {
+                                        "type": "integer"
+                                    },
+                                    "namespaces": {
+                                        "type": "string"
+                                    },
+                                    "bbox": {
+                                        "type": "string"
+                                    },
+                                    "lang": {
+                                        "type": "string"
+                                    },
+                                    "lat": {
+                                        "type": "number"
+                                    },
+                                    "lon": {
+                                        "type": "number"
+                                    },
+                                    "minChars": {
+                                        "type": "integer"
+                                    },
+                                    "osm_tag": {
+                                        "type": "string"
+                                    },
+                                    "searchType": {
+                                        "type": "string"
+                                    },
+                                    "toolTip": {
+                                        "type": "string"
+                                    },
+                                    "zoom": {
+                                        "type": "string"
+                                    },
+                                    "resultEvents": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "onClick": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "onHover": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "buttons": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "timeout": {
+                            "type": "integer"
+                        },
+                        "zoomLevel": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "sections": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/module"
+                        }
+                    }
+                },
+                "title": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "link": {
+                            "type": "string"
+                        },
+                        "logo": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        },
+                        "toolTip": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "module": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "about",
+                        "addWMS",
+                        "bufferAnalysis",
+                        "contact",
+                        "compareFeatures",
+                        "compareMaps",
+                        "coordToolkit",
+                        "copyrightConstraints",
+                        "customMenuElement",
+                        "draw",
+                        "draw_old",
+                        "featureLister",
+                        "fileImport",
+                        "filter",
+                        "folder",
+                        "language",
+                        "layerClusterToggler",
+                        "layerSlider",
+                        "legend",
+                        "login",
+                        "measure",
+                        "modeler3D",
+                        "news",
+                        "openConfig",
+                        "print",
+                        "routing",
+                        "scaleSwitcher",
+                        "selectFeatures",
+                        "shadow",
+                        "shareView",
+                        "statisticDashboard",
+                        "streetSmart",
+                        "styleVT",
+                        "wfsSearch",
+                        "wfst"
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "showDescription": {
+                    "type": "boolean"
+                },
+                "supportedDevices": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "supportedMapModes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "showEntryDirectly": {
+                    "type": "boolean"
+                },
+                "elements": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/module"
+                    }
+                }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "about"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "abstractText": {
+                                "type": "string"
+                            },
+                            "contact": {
+                                "type": "string"
+                            },
+                            "cswUrl": {
+                                "type": "string"
+                            },
+                            "logo": {
+                                "oneOf": [
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            "logoLink": {
+                                "type": "string"
+                            },
+                            "logoText": {
+                                "type": "string"
+                            },
+                            "metaDataCatalogueId": {
+                                "type": "string"
+                            },
+                            "metaId": {
+                                "type": "string"
+                            },
+                            "metaUrl": {
+                                "type": "string"
+                            },
+                            "noMetadataLoaded": {
+                                "type": "string"
+                            },
+                            "showAdditionalMetaData": {
+                                "type": "boolean"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "version": {
+                                "oneOf": [
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "string"
+                                    }
+                                ]
+                            },
+                            "versionLink": {
+                                "type": "string"
+                            },
+                            "ustId": {
+                                "type": "string"
+                            },
+                            "privacyStatementText": {
+                                "type": "string"
+                            },
+                            "privacyStatementUrl": {
+                                "type": "string"
+                            },
+                            "accessibilityText": {
+                                "type": "string"
+                            },
+                            "accessibilityUrl": {
+                                "type": "string"
+                            },
+                            "hideImprintInFooter": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "contact"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "serviceId": {
+                                "type": "string"
+                            },
+                            "from": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "to": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "cc": {
+                                "type": "array"
+                            },
+                            "bcc": {
+                                "type": "array"
+                            },
+                            "fileUpload": {
+                                "type": "boolean"
+                            },
+                            "includeSystemInfo": {
+                                "type": "boolean"
+                            },
+                            "closeAfterSend": {
+                                "type": "boolean"
+                            },
+                            "deleteAfterSend": {
+                                "type": "boolean"
+                            },
+                            "withTicketNo": {
+                                "type": "boolean"
+                            },
+                            "showPrivacyPolicy": {
+                                "type": "boolean"
+                            },
+                            "privacyPolicyLink": {
+                                "type": "string"
+                            },
+                            "subject": {
+                                "type": "string"
+                            },
+                            "locationOfCustomer": {
+                                "type": "string"
+                            },
+                            "contactInfo": {
+                                "type": "string"
+                            },
+                            "infoMessage": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "measure"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "earthRadius": {
+                                "type": "number"
+                            },
+                            "measurementAccuracy": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "print"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "printServiceId": {
+                                "type": "string"
+                            },
+                            "printAppId": {
+                                "type": "string"
+                            },
+                            "filename": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "layoutOrder": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "currentLayoutName": {
+                                "type": "string"
+                            },
+                            "isScaleSelectedManually": {
+                                "type": "boolean"
+                            },
+                            "printMapMarker": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "routing"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "activeRoutingToolOption": {
+                                "type": "string"
+                            },
+                            "routingToolOptions": {
+                                "type": "array"
+                            },
+                            "download": {
+                                "type": "object"
+                            },
+                            "geosearch": {
+                                "type": "object"
+                            },
+                            "geosearchReverse": {
+                                "type": "object"
+                            },
+                            "directionsSettings": {
+                                "type": "object"
+                            },
+                            "isochronesSettings": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "draw"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "renderToWindow": {
+                                "type": "boolean"
+                            },
+                            "deactivateGFI": {
+                                "type": "boolean"
+                            },
+                            "initialJSON": {
+                                "type": "string"
+                            },
+                            "drawSymbolSettings": {
+                                "type": "object"
+                            },
+                            "drawLineSettings": {
+                                "type": "object"
+                            },
+                            "drawCurveSettings": {
+                                "type": "object"
+                            },
+                            "drawAreaSettings": {
+                                "type": "object"
+                            },
+                            "drawCircleSettings": {
+                                "type": "object"
+                            },
+                            "drawDoubleCircleSettings": {
+                                "type": "object"
+                            },
+                            "writeTextSettings": {
+                                "type": "object"
+                            },
+                            "download": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "filter"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "layerGroups": {
+                                "type": "array"
+                            },
+                            "layers": {
+                                "type": "array"
+                            },
+                            "geometryName": {
+                                "type": "string"
+                            },
+                            "isGeneric": {
+                                "type": "boolean"
+                            },
+                            "isInitOpen": {
+                                "type": "boolean"
+                            },
+                            "allowMultipleQueriesPerLayer": {
+                                "type": "boolean"
+                            },
+                            "liveZoomToFeatures": {
+                                "type": "boolean"
+                            },
+                            "minScale": {
+                                "type": "integer"
+                            },
+                            "multiLayerSelector": {
+                                "type": "boolean"
+                            },
+                            "closeGfi": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "fileImport"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "enableZoomToExtend": {
+                                "type": "boolean"
+                            },
+                            "importedFileNameLength": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "shadow"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "shadowTime": {
+                                "type": "object",
+                                "properties": {
+                                    "month": {
+                                        "type": "string"
+                                    },
+                                    "day": {
+                                        "type": "string"
+                                    },
+                                    "hour": {
+                                        "type": "string"
+                                    },
+                                    "minute": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "isShadowEnabled": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "wfst"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "layerIds": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "layerSelectLabel": {
+                                "type": "string"
+                            },
+                            "toggleLayer": {
+                                "type": "boolean"
+                            },
+                            "pointButton": {
+                                "type": "array"
+                            },
+                            "lineButton": {
+                                "type": "array"
+                            },
+                            "polygonButton": {
+                                "type": "array"
+                            },
+                            "update": {
+                                "type": "array"
+                            },
+                            "delete": {
+                                "type": "array"
+                            },
+                            "multiUpdate": {
+                                "type": "array"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

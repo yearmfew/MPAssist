@@ -1,11 +1,10 @@
 from abc import ABC
 import re
-import json
 
 from pathlib import Path
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
-from utils.settings import LLM_MODEL, IONOS_API_BASE_URL, IONOS_API_TOKEN
+from utils.settings import LLM_MODEL, IONOS_API_BASE_URL, IONOS_API_TOKEN, K
 from utils import db_manager
 
 
@@ -22,8 +21,7 @@ class BaseAgent(ABC):
         self.base_url = IONOS_API_BASE_URL
         if not self.api_token:
             raise ValueError(
-                "IONOS_API_TOKEN environment variable not set. "
-                "Please set it to your IONOS AI Model Hub API token."
+                "IONOS_API_TOKEN environment variable not set. " "Please set it to your IONOS AI Model Hub API token."
             )
 
     def invoke_llm(self, prompt: str, **kwargs) -> str:
@@ -50,7 +48,7 @@ class BaseAgent(ABC):
 
         return str(response.content)
 
-    def get_chunks(self, query: str, k: int = 3, filter: dict = {}, **kwargs) -> list:
+    def get_chunks(self, query: str, k: int = K, filter: dict = {}, **kwargs) -> list:
         try:
             chunks = db_manager._vector_store.similarity_search(
                 query,
@@ -111,3 +109,13 @@ class BaseAgent(ABC):
             return match.group(0).strip()
 
         return "{}"
+
+    def remove_comments(self, json_string: str):
+        lines = str(json_string).split("\n")
+        cleaned_lines = []
+        for line in lines:
+            if "//" in line:
+                if "http://" not in line and "https://" not in line:
+                    line = line.split("//")[0]
+            cleaned_lines.append(line)
+        return "\n".join(cleaned_lines)
