@@ -1,0 +1,271 @@
+(venv) yearmfew@Birols-MacBook-Pro layerData % python3 generate_layer_descriptions.py
+/Users/yearmfew/DOCS - Hildesheim Uni/Abschlussarbeit/Project_Github/MPAssist/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Processed 30/7310 services
+Processed 60/7310 services
+Processed 90/7310 services
+Processed 120/7310 services
+Processed 150/7310 services
+Processed 180/7310 services
+Processed 210/7310 services
+Processed 240/7310 services
+Processed 270/7310 services
+Processed 300/7310 services
+Processed 330/7310 services
+Failed to fetch metadata for service 1926 (dynamic_stations): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1927 (geofoxdb_bundr): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1928 (geofoxdb_cambio): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1929 (geofoxdb_europcar): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1930 (geofoxdb_pundr): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1931 (geofoxdb_servicestellen): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1933 (Haltestellen): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1934 (Nachtfahrplan Wochentags): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1935 (Normalfahrplan): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1936 (Sonderfahrplan): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1937 (Nachtfahrplan Wochenende): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1938 (geofoxdb_zahlgrenzen): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1939 (geofoxdb_zahlgrenzen_gedehnt): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1940 (geofoxdb_zahlgrenzen_gedehnt_nacht): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1941 (geofoxdb_zahlgrenzen_gedehnt_normal): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1942 (geofoxdb_zahlgrenzen_gedehnt_sonderfahrplan): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1943 (geofoxdb_zahlgrenzen_gedehnt_we_nacht): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1944 (geofoxdb_zahlgrenzen_nacht): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1945 (geofoxdb_zahlgrenzen_normal): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Processed 360/7310 services
+Failed to fetch metadata for service 1946 (geofoxdb_zahlgrenzen_sonderfahrplan): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 1947 (geofoxdb_zahlgrenzen_we_nacht): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Processed 390/7310 services
+Processed 420/7310 services
+Processed 450/7310 services
+Processed 480/7310 services
+Processed 510/7310 services
+Processed 540/7310 services
+Processed 570/7310 services
+Failed to fetch metadata for service 2921 (geofoxdb_switchh_points): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Processed 630/7310 services
+Processed 690/7310 services
+Processed 720/7310 services
+Processed 750/7310 services
+Processed 780/7310 services
+Processed 810/7310 services
+Processed 840/7310 services
+Failed to fetch metadata for service 5246 (Haltestellen): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5247 (Nachtfahrplan Wochenende): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5248 (Nachtfahrplan Wochentags): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5249 (Normalfahrplan): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5250 (Sonderfahrplan): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5251 (dynamic_stations): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5252 (geofoxdb_bundr): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5253 (geofoxdb_cambio): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5254 (geofoxdb_europcar): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5255 (geofoxdb_pundr): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5256 (geofoxdb_servicestellen): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5257 (geofoxdb_switchh_points): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5258 (geofoxdb_zahlgrenzen): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5259 (geofoxdb_zahlgrenzen_gedehnt): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5260 (geofoxdb_zahlgrenzen_gedehnt_nacht): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Processed 870/7310 services
+Failed to fetch metadata for service 5261 (geofoxdb_zahlgrenzen_gedehnt_normal): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5262 (geofoxdb_zahlgrenzen_gedehnt_sonderfahrplan): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5263 (geofoxdb_zahlgrenzen_gedehnt_we_nacht): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5264 (geofoxdb_zahlgrenzen_nacht): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5265 (geofoxdb_zahlgrenzen_normal): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5266 (geofoxdb_zahlgrenzen_sonderfahrplan): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Failed to fetch metadata for service 5267 (geofoxdb_zahlgrenzen_we_nacht): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D
+Processed 900/7310 services
+Processed 930/7310 services
+Processed 960/7310 services
+Processed 1560/7310 services
+Processed 1590/7310 services
+Processed 1620/7310 services
+Processed 1650/7310 services
+Processed 1950/7310 services
+Processed 2010/7310 services
+Processed 2040/7310 services
+Processed 2100/7310 services
+Processed 2130/7310 services
+Processed 2160/7310 services
+Processed 2190/7310 services
+Processed 2220/7310 services
+Processed 2250/7310 services
+Processed 2280/7310 services
+Processed 2310/7310 services
+Processed 2340/7310 services
+Processed 2370/7310 services
+Processed 2400/7310 services
+Processed 2430/7310 services
+Processed 2460/7310 services
+Processed 2490/7310 services
+Processed 2520/7310 services
+Processed 2550/7310 services
+Processed 2580/7310 services
+Processed 2610/7310 services
+Processed 2640/7310 services
+Processed 2670/7310 services
+Processed 2700/7310 services
+Processed 2730/7310 services
+Processed 2760/7310 services
+Processed 2790/7310 services
+Processed 2820/7310 services
+Processed 2850/7310 services
+Processed 2880/7310 services
+Processed 2910/7310 services
+Processed 2940/7310 services
+Processed 2970/7310 services
+Processed 3000/7310 services
+Processed 3030/7310 services
+Processed 3060/7310 services
+Processed 3090/7310 services
+Processed 3120/7310 services
+Processed 3150/7310 services
+Processed 3180/7310 services
+Processed 3210/7310 services
+Processed 3240/7310 services
+Processed 3270/7310 services
+Processed 3300/7310 services
+Processed 3330/7310 services
+Processed 3360/7310 services
+Processed 3390/7310 services
+Processed 3420/7310 services
+Processed 3450/7310 services
+Processed 3480/7310 services
+Processed 3510/7310 services
+Processed 3540/7310 services
+Processed 3570/7310 services
+Processed 3600/7310 services
+Failed to fetch metadata for service 19621 (Netz Echtzeit Zoom5): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19622 (Pfeile Echtzeit Zoom5): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19623 (Netz Echtzeit Zoom4): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19624 (Pfeile Echtzeit Zoom4): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19625 (Netz Echtzeit Zoom3): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19626 (Pfeile Echtzeit Zoom3): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19627 (Netz Echtzeit Zoom2): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19628 (Pfeile Echtzeit Zoom2): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19629 (Netz Echtzeit Zoom1): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19630 (Pfeile Echtzeit Zoom1): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19631 (Netz Echtzeit Zoom0): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Processed 3630/7310 services
+Failed to fetch metadata for service 19632 (Pfeile Echtzeit Zoom0): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Failed to fetch metadata for service 19633 (Text Echtzeit Zoom1): 403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72
+Processed 3660/7310 services
+Processed 3720/7310 services
+Processed 3750/7310 services
+Processed 3780/7310 services
+Processed 3810/7310 services
+Processed 3840/7310 services
+Processed 3870/7310 services
+Processed 3900/7310 services
+Processed 3930/7310 services
+Processed 3960/7310 services
+Processed 3990/7310 services
+Processed 4020/7310 services
+Processed 4050/7310 services
+Processed 4080/7310 services
+Processed 4110/7310 services
+Processed 4140/7310 services
+Processed 4200/7310 services
+Processed 4230/7310 services
+Processed 4260/7310 services
+Processed 4290/7310 services
+Processed 4320/7310 services
+Processed 4350/7310 services
+Processed 4380/7310 services
+Processed 4410/7310 services
+Processed 4440/7310 services
+Processed 4470/7310 services
+Processed 4500/7310 services
+Processed 4530/7310 services
+Processed 4560/7310 services
+Processed 4590/7310 services
+Processed 4620/7310 services
+Processed 4650/7310 services
+Processed 4680/7310 services
+Processed 4710/7310 services
+Processed 4740/7310 services
+Processed 4770/7310 services
+Processed 4800/7310 services
+Processed 4830/7310 services
+Processed 4860/7310 services
+Processed 4890/7310 services
+Processed 4920/7310 services
+Processed 4950/7310 services
+Processed 4980/7310 services
+Processed 5010/7310 services
+Processed 5040/7310 services
+Processed 5070/7310 services
+Processed 5100/7310 services
+Processed 5130/7310 services
+Processed 5160/7310 services
+Processed 5190/7310 services
+Processed 5220/7310 services
+Processed 5250/7310 services
+Processed 5280/7310 services
+Processed 5310/7310 services
+Processed 5340/7310 services
+Processed 5370/7310 services
+Processed 5400/7310 services
+Processed 5430/7310 services
+Processed 5460/7310 services
+Processed 5490/7310 services
+Processed 5520/7310 services
+Processed 5550/7310 services
+Processed 5580/7310 services
+Processed 5610/7310 services
+Processed 5640/7310 services
+Processed 5670/7310 services
+Processed 5700/7310 services
+Processed 5730/7310 services
+Processed 5760/7310 services
+Processed 5790/7310 services
+Processed 5820/7310 services
+Processed 5850/7310 services
+Processed 5880/7310 services
+Processed 5910/7310 services
+Processed 5940/7310 services
+Processed 5970/7310 services
+Processed 6000/7310 services
+Processed 6030/7310 services
+Processed 6060/7310 services
+Processed 6090/7310 services
+Processed 6120/7310 services
+Processed 6150/7310 services
+Processed 6180/7310 services
+Processed 6210/7310 services
+Processed 6240/7310 services
+Processed 6270/7310 services
+Processed 6300/7310 services
+Processed 6330/7310 services
+Processed 6360/7310 services
+Processed 6390/7310 services
+Processed 6420/7310 services
+Processed 6450/7310 services
+Processed 6480/7310 services
+Processed 6510/7310 services
+Processed 6540/7310 services
+Processed 6570/7310 services
+Processed 6600/7310 services
+Processed 6630/7310 services
+Processed 6660/7310 services
+Processed 6690/7310 services
+Processed 6720/7310 services
+Processed 6750/7310 services
+Processed 6780/7310 services
+Processed 6810/7310 services
+Processed 6840/7310 services
+Processed 6870/7310 services
+Processed 6900/7310 services
+Processed 6930/7310 services
+Processed 6960/7310 services
+Processed 6990/7310 services
+Processed 7020/7310 services
+Processed 7050/7310 services
+Processed 7080/7310 services
+Processed 7110/7310 services
+Processed 7140/7310 services
+Processed 7170/7310 services
+Processed 7200/7310 services
+Processed 7230/7310 services
+Processed 7260/7310 services
+Processed 7290/7310 services
+Completed: 6195 services processed, 57 failed
+Error log saved to: layerDescriptions_errors.json

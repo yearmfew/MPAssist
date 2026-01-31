@@ -109,15 +109,13 @@ class ConfigurationFinder(BaseAgent):
 
     def get_layer_configurations(self, requirements: str) -> str:
 
-        ## I need to have layer documentation from udp manager. The data I have does not have much info about layers.!!!!
-        # rest-services.json
         chunks = self.get_chunks(
             query=requirements,
             k=K,
             filter={
                 "category": [
-                    "subjectLayerConfigDocumentation",
-                    "baseLayerConfigDocumentation",
+                    "layerConfigDocumentation",
+                    "layerDocumentation",
                 ]
             },
         )

@@ -33,12 +33,6 @@ def add_custom_metadata(docs):
             if "layerConfig.md" in source_path:
                 doc.metadata["category"] = "layerConfigDocumentation"
                 doc.metadata["template"] = "TEMPLATE_LAYER_FINDER"
-            elif "layerConfigBaseLayer" in source_path:
-                doc.metadata["category"] = "baseLayerConfigDocumentation"
-                doc.metadata["template"] = "TEMPLATE_LAYER_FINDER"
-            elif "layerConfigSubjectLayer" in source_path:
-                doc.metadata["category"] = "subjectLayerConfigDocumentation"
-                doc.metadata["template"] = "TEMPLATE_LAYER_FINDER"
             elif "portalConfig.md" in source_path:
                 doc.metadata["category"] = "portalConfigDocumentation"
             elif "portalConfigMap" in source_path:
@@ -63,6 +57,9 @@ def add_custom_metadata(docs):
         elif "configDocumentation" in source_path:
             doc.metadata["category"] = "mainDocumentation"
 
+        elif "layerDocumentation" in source_path:
+            doc.metadata["category"] = "layerDocumentation"
+            doc.metadata["template"] = "TEMPLATE_LAYER_FINDER"
         else:
             doc.metadata["category"] = "documentation"
 
