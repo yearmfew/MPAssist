@@ -23,19 +23,23 @@ cd MPAssist
 ```bash
 python ingest.py
 ```
-4. Change into the Docker directory:
+
+4. Create env file and add your token in this file. Use the template env.examle. 
+
+
+5. Change into the Docker directory:
 
 ```bash
 cd docker
 ```
 
-5. Build the Docker image:
+6. Build the Docker image:
 
 ```bash
 docker-compose build --no-cache
 ```
 
-6. Start the container:
+7. Start the container:
 
 ```bash
 docker-compose up
