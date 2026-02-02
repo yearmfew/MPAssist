@@ -1,4 +1,5 @@
 import json
+
 from agents.base_agent import BaseAgent
 from agents.halisunation_checker import HalisunationChecker
 from utils import db_manager
@@ -19,6 +20,7 @@ class ConfigurationFinder(BaseAgent):
         super().__init__()
         db_manager._init_vector_store()
         self.halisunation_checker = HalisunationChecker()
+        self.project_documents_path = "project_documents/"
 
     def _label_chunks(self, chunks: list, templateName: str = "", priority_map: dict = {}) -> list:
         labeled_chunks = []
@@ -37,10 +39,36 @@ class ConfigurationFinder(BaseAgent):
 
         return labeled_chunks
 
+    def _get_dataset_chunks_by_references(self, chunks: list) -> list:
+        datatype_names = set()
+
+        for chunk in chunks:
+            if "references" in chunk.metadata and chunk.metadata["references"]:
+                refs = chunk.metadata["references"].split(",")
+                datatype_names.update([ref.strip() for ref in refs if ref.strip()])
+
+        if not datatype_names:
+            return []
+
+        datatype_chunks = []
+        for datatype_name in datatype_names:
+            matching_chunks = self.get_chunks(
+                query="",
+                k=K,
+                filter={
+                    "$and": [
+                        {"category": "datatype"},
+                        {"datatype_name": datatype_name},
+                    ]
+                },
+            )
+            datatype_chunks.extend(matching_chunks)
+
+        return datatype_chunks
+
     def _check_for_halisunations(
         self,
         configurations,
-        default_configurations,
         config_object_id,
         context,
     ) -> str:
@@ -53,9 +81,10 @@ class ConfigurationFinder(BaseAgent):
             return configurations
         else:
             self.print_nice(
-                title="HALISUNATION DETECTED IN MAP CONFIGURATIONS",
-                message="The generated map configurations contain errors according to the schema validation.",
+                title=f"HALISUNATION DETECTED {config_object_id} CONFIGURATIONS",
+                message=f"The generated {config_object_id} configurations contain errors according to the schema validation.",
             )
+
             errors = validation_result["errors"]
 
             halisunation_fix_prompt = self.create_prompt_template(
@@ -63,7 +92,7 @@ class ConfigurationFinder(BaseAgent):
                 context=context,
                 errors=json.dumps(errors, indent=2),
                 configuration_to_fix=configurations,
-                default_config=default_configurations,
+                # default_config=default_configurations,
             )
 
             llm_response = self.invoke_llm(halisunation_fix_prompt)
@@ -71,20 +100,24 @@ class ConfigurationFinder(BaseAgent):
 
             self.print_nice(
                 title="HALISUNATION FIXED",
-                message=correctedConfigurations,
+                message=f"haisunations fixed for config_object_id: {config_object_id}",
             )
 
         return correctedConfigurations
 
     def get_module_configurations(self, requirements: str) -> str:
+        query_str = str(requirements) if not isinstance(requirements, list) else " ".join(map(str, requirements))
+
         chunks = self.get_chunks(
-            query=requirements,
+            query=query_str,
             k=K,
             filter={"category": "modulesConfigDocumentation"},
         )
 
+        datatype_chunks = self._get_dataset_chunks_by_references(chunks)
+
         labelled_chunks = self._label_chunks(
-            chunks,
+            chunks + datatype_chunks,
             priority_map={
                 "modulesConfigDocumentation": "CRITICAL",
             },
@@ -93,7 +126,7 @@ class ConfigurationFinder(BaseAgent):
 
         context_text = "\n\n---\n\n".join(labelled_chunks)
 
-        default_section_configuration = self.read_file(file_path="masterportal-docs/defaults/section.json")
+        default_section_configuration = self.read_file(file_path=f"{self.project_documents_path}/defaults/section.json")
 
         full_prompt = self.create_prompt_template(
             template=TEMPLATE_MODULE_FINDER,
@@ -108,26 +141,42 @@ class ConfigurationFinder(BaseAgent):
         return moduleConfigurations
 
     def get_layer_configurations(self, requirements: str) -> str:
+        query_str = str(requirements) if not isinstance(requirements, list) else " ".join(map(str, requirements))
 
-        chunks = self.get_chunks(
-            query=requirements,
+        # The half of the vector db chunks are layer documentation.
+        # To provide better context, we separate them here.
+        documentation_chunks = self.get_chunks(
+            query=query_str,
             k=K,
             filter={
                 "category": [
                     "layerConfigDocumentation",
+                ]
+            },
+        )
+
+        layer_chunks = self.get_chunks(
+            query=query_str,
+            k=K,
+            filter={
+                "category": [
                     "layerDocumentation",
                 ]
             },
         )
 
+        layer_datatype_chunks = self._get_dataset_chunks_by_references(layer_chunks)
+        documentation_datatype_chunks = self._get_dataset_chunks_by_references(documentation_chunks)
+        datatype_chunks = layer_datatype_chunks + documentation_datatype_chunks
+
         labelled_chunks = self._label_chunks(
-            chunks,
+            documentation_chunks + layer_chunks + datatype_chunks,
             templateName="TEMPLATE_LAYER_FINDER",
         )
 
         context_text = "\n\n---\n\n".join(labelled_chunks)
 
-        default_layer_config = self.read_file(file_path="masterportal-docs/defaults/layerConfig.json")
+        default_layer_config = self.read_file(file_path=f"{self.project_documents_path}/defaults/layerConfig.json")
 
         full_prompt = self.create_prompt_template(
             template=TEMPLATE_LAYER_FINDER,
@@ -139,28 +188,39 @@ class ConfigurationFinder(BaseAgent):
         llm_response = self.invoke_llm(full_prompt)
         layerConfigurations = self.extract_json_from_response(llm_response)
 
+        ## Check for halisunation
+        # layerConfigurations = self._check_for_halisunations(
+        #     configurations=layerConfigurations,
+        #     context=context_text,
+        #     config_object_id="layerConfig",
+        # )
+
         return layerConfigurations
 
     def get_map_configurations(self, requirements: str) -> str:
+        query_str = str(requirements) if not isinstance(requirements, list) else " ".join(map(str, requirements))
+
         chunks = self.get_chunks(
-            query=requirements,
+            query=query_str,
             k=K,
             filter={"category": "mapConfigDocumentation"},
         )
+
+        datatype_chunks = self._get_dataset_chunks_by_references(chunks)
 
         priority_map = {
             "mapConfigDocumentation": "CRITICAL",
         }
 
         labelled_chunks = self._label_chunks(
-            chunks,
+            chunks + datatype_chunks,
             templateName="TEMPLATE_MAP_FINDER",
             priority_map=priority_map,
         )
 
         context_text = "\n\n---\n\n".join(labelled_chunks)
 
-        default_map_config = self.read_file(file_path="masterportal-docs/defaults/map.json")
+        default_map_config = self.read_file(file_path=f"{self.project_documents_path}/defaults/map.json")
 
         full_prompt = self.create_prompt_template(
             template=TEMPLATE_MAP_FINDER,
@@ -173,10 +233,8 @@ class ConfigurationFinder(BaseAgent):
         mapConfigurations = self.extract_json_from_response(llm_response)
 
         ## Check for halisunation
-        ## Will be activated later..
         # mapConfigurations = self._check_for_halisunations(
         #     configurations=mapConfigurations,
-        #     default_configurations=default_map_config,
         #     context=context_text,
         #     config_object_id="map",
         # )
@@ -184,28 +242,29 @@ class ConfigurationFinder(BaseAgent):
         return mapConfigurations
 
     def get_menu_configurations(self, requirements: str, module_configurations: str, history: list) -> str:
+        query_str = str(requirements) if not isinstance(requirements, list) else " ".join(map(str, requirements))
+
         chunks = self.get_chunks(
-            query=requirements,
+            query=query_str,
             k=K,
-            filter={
-                "category": [
-                    "mainMenuConfigDocumentation",
-                    "secondaryMenuConfigDocumentation",
-                ]
-            },
+            filter={"category": ["menuConfigDocumentation"]},
         )
 
+        datatype_chunks = self._get_dataset_chunks_by_references(chunks)
+
         labelled_chunks = self._label_chunks(
-            chunks,
+            chunks + datatype_chunks,
             templateName="TEMPLATE_MENU_CONFIG_FINDER",
         )
 
         context_text = "\n\n---\n\n".join(labelled_chunks)
 
-        main_menu_default_configurations = self.read_file(file_path="masterportal-docs/defaults/mainMenu.json")
+        main_menu_default_configurations = self.read_file(
+            file_path=f"{self.project_documents_path}/defaults/mainMenu.json"
+        )
 
         secondary_menu_default_configurations = self.read_file(
-            file_path="masterportal-docs/defaults/secondaryMenu.json"
+            file_path=f"{self.project_documents_path}/defaults/secondaryMenu.json"
         )
 
         full_prompt = self.create_prompt_template(
@@ -220,23 +279,57 @@ class ConfigurationFinder(BaseAgent):
         llm_response = self.invoke_llm(full_prompt)
         menuConfigurations = self.extract_json_from_response(llm_response)
 
+        ## Check for halisunation
+        ## menu_config has portalconfig and under both menu. This should be handled seperatly here.
+
+        # mainMenuConfigurations = json.loads(menuConfigurations)["portalConfig"]["mainMenu"]
+
+        # mainMenuConfigurations = self._check_for_halisunations(
+        #     configurations=mainMenuConfigurations,
+        #     default_configurations={
+        #         "mainMenu": main_menu_default_configurations,
+        #         "secondaryMenu": secondary_menu_default_configurations,
+        #     },
+        #     context=context_text,
+        #     config_object_id="mainMenu",
+        # )
+        # menuConfigurations = json.loads(menuConfigurations)
+        # menuConfigurations["portalConfig"]["mainMenu"] = mainMenuConfigurations
+
+        # secondaryMenuConfigurations = json.loads(menuConfigurations)["portalConfig"]["secondaryMenu"]
+        # secondaryMenuConfigurations = self._check_for_halisunations(
+        #     configurations=secondaryMenuConfigurations,
+        #     default_configurations={
+        #         "mainMenu": main_menu_default_configurations,
+        #         "secondaryMenu": secondary_menu_default_configurations,
+        #     },
+        #     context=context_text,
+        #     config_object_id="secondaryMenu",
+        # )
+
+        # menuConfigurations["portalConfig"]["secondaryMenu"] = secondaryMenuConfigurations
+
         return menuConfigurations
 
     def get_portal_footer_configurations(self, requirements: str, history: list) -> str:
+        query_str = str(requirements) if not isinstance(requirements, list) else " ".join(map(str, requirements))
+
         chunks = self.get_chunks(
-            query=requirements,
+            query=query_str,
             k=K,
             filter={"category": "portalFooterConfigDocumentation"},
         )
-
+        datatype_chunks = self._get_dataset_chunks_by_references(chunks)
         labelled_chunks = self._label_chunks(
-            chunks,
+            chunks + datatype_chunks,
             templateName="TEMPLATE_PORTAL_FOOTER_CONFIG_FINDER",
         )
 
         context_text = "\n\n---\n\n".join(labelled_chunks)
 
-        default_portal_footer_config = self.read_file(file_path="masterportal-docs/defaults/portalFooter.json")
+        default_portal_footer_config = self.read_file(
+            file_path=f"{self.project_documents_path}/defaults/portalFooter.json"
+        )
 
         full_prompt = self.create_prompt_template(
             template=TEMPLATE_PORTAL_FOOTER_CONFIG_FINDER,
@@ -249,32 +342,47 @@ class ConfigurationFinder(BaseAgent):
         llm_response = self.invoke_llm(full_prompt)
         portalFooterConfigurations = self.extract_json_from_response(llm_response)
 
+        ## Check for halisunation
+        # portalFooterConfigurations = self._check_for_halisunations(
+        #     configurations=portalFooterConfigurations,
+        #     context=context_text,
+        #     config_object_id="portalFooter",
+        # )
+
         return portalFooterConfigurations
 
     def get_tree_configurations(self, requirements: str, history: list) -> str:
+        query_str = str(requirements) if not isinstance(requirements, list) else " ".join(map(str, requirements))
+
         chunks = self.get_chunks(
-            query=requirements,
+            query=query_str,
             k=K,
             filter={"category": "treeConfigDocumentation"},
         )
-
+        datatype_chunks = self._get_dataset_chunks_by_references(chunks)
         labelled_chunks = self._label_chunks(
-            chunks,
+            chunks + datatype_chunks,
             templateName="TEMPLATE_TREE_CONFIG_FINDER",
         )
 
         context_text = "\n\n---\n\n".join(labelled_chunks)
-        default_tree_config = self.read_file(file_path="masterportal-docs/defaults/tree.json")
+        default_tree_config = self.read_file(file_path=f"{self.project_documents_path}/defaults/tree.json")
 
         full_prompt = self.create_prompt_template(
             template=TEMPLATE_TREE_CONFIG_FINDER,
             context=context_text,
             requirements=requirements,
-            history=history,
             default_tree_config=default_tree_config,
         )
 
         llm_response = self.invoke_llm(full_prompt)
         treeConfigurations = self.extract_json_from_response(llm_response)
+
+        ## Check for halisunation
+        # treeConfigurations = self._check_for_halisunations(
+        #     configurations=treeConfigurations,
+        #     context=context_text,
+        #     config_object_id="tree",
+        # )
 
         return treeConfigurations

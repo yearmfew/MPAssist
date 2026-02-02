@@ -1,16 +1,9 @@
 {
   "summary": {
-    "total_services_in_input": 7310,
     "total_services_processed": 6195,
     "total_services_failed": 57,
     "unique_metadata_fetched": 518,
-    "metadata_reused_from_cache": 5677,
-    "after_grouping": {
-      "total_entries": 511,
-      "unique_layers": 38,
-      "grouped_descriptions": 473,
-      "deduplication_ratio": "12.12x"
-    }
+    "metadata_reused_from_cache": 5677
   },
   "md_id_usage": [
     {
