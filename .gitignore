@@ -11,6 +11,8 @@ masterportal-docs-short/
 MPAssist.code-workspace
 portalconfigs/
 cleanJson/
+src/utils/createdConfig.json
+src/utils/hal_check.py
 
 # Python cache
 __pycache__/

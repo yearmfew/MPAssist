@@ -29,62 +29,39 @@ class Orchestrator(BaseAgent):
         yield from self._generate_final_config(llm_response=self.conversation_for_requirements, history=history)
 
     def _generate_final_config(self, llm_response, history):
+        try:
+            summary = self.requirement_finder.extract_requirements_as_dict(llm_response)
 
-        summary = self.requirement_finder.extract_requirements_as_dict(llm_response)
+            self.print_nice(
+                title="Extracted JSON Summary",
+                message=str(summary),
+            )
 
-        self.print_nice(
-            title="Extracted JSON Summary",
-            message=str(summary),
-        )
-
-        if not summary:
+            if not summary:
+                return
+        except Exception as e:
+            self.print_nice(
+                title="Error extracting requirements",
+                message=f"Failed to extract requirements: {str(e)}",
+            )
             return
 
         map_configurations = self.configuration_finder.get_map_configurations(summary["requirements"])
-
         portal_footer_configurations = self.configuration_finder.get_portal_footer_configurations(
             requirements=summary["requirements"],
             history=history,
         )
-
         tree_configurations = self.configuration_finder.get_tree_configurations(
             requirements=summary["requirements"],
             history=history,
         )
-
         module_configurations = self.configuration_finder.get_module_configurations(summary["requirements"])
-
         menu_configurations = self.configuration_finder.get_menu_configurations(
             requirements=summary["requirements"],
             module_configurations=module_configurations,
             history=history,
         )
         layer_configurations = self.configuration_finder.get_layer_configurations(summary["requirements"])
-
-        self.print_nice(
-            title="Generated Map Configurations",
-            message=map_configurations,
-        )
-
-        # self.print_nice(
-        #     title="Generated PORTAL FOOTER Configurations",
-        #     message=portal_footer_configurations,
-        # )
-
-        # self.print_nice(
-        #     title="Generated TREE Configurations",
-        #     message=tree_configurations,
-        # )
-
-        # self.print_nice(
-        #     title="Generated MENU Configurations",
-        #     message=menu_configurations,
-        # )
-
-        # self.print_nice(
-        #     title="Generated Layer Configurations",
-        #     message=layer_configurations,
-        # )
 
         config_json = self.config_file_creator.generate_config_json(
             layer_configurations=json.loads(self.remove_comments(layer_configurations)),

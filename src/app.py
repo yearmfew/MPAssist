@@ -47,14 +47,17 @@ def generate_config_fn(history: list):
 
     except Exception as e:
         error_msg = f"❌ Configuration generation failed: {str(e)}"
-        print(f"Error in generate_config_fn: {str(e)}")
+
+        print(error_msg)
+
         history.append({"role": "assistant", "content": error_msg})
+
         yield history, gr.update(visible=False), gr.update(interactive=True), gr.update(interactive=True)
 
 
 def reset_conversation():
     """Reset the conversation to initial state."""
-    initial_msg = [{"role": "assistant", "content": "Hello! What kind of Masterportal would you like to create?"}]
+    initial_msg = [{"role": "assistant", "content": "Frag MPAssist"}]
     return (
         initial_msg,
         gr.update(visible=False, interactive=True),
@@ -69,7 +72,7 @@ with gr.Blocks(fill_height=True) as GradioInterface:
     chatbot = gr.Chatbot(
         label="Conversation",
         height=600,
-        value=[{"role": "assistant", "content": "Hello! What kind of Masterportal would you like to create?"}],  # type: ignore
+        value=[{"role": "assistant", "content": "Hallo! Welche Art von Masterportal möchten Sie erstellen?"}],  # type: ignore
     )
 
     with gr.Row():
@@ -85,12 +88,12 @@ with gr.Blocks(fill_height=True) as GradioInterface:
 
     with gr.Row():
         msg = gr.Textbox(
-            placeholder="What kind of Masterportal would you like to create?",
+            placeholder="Frag MPAssist?",
             show_label=False,
             scale=9,
             container=False,
         )
-        submit_button = gr.Button("Send", variant="primary", scale=1)
+        submit_button = gr.Button("Senden", variant="primary", scale=1)
 
     msg.submit(
         chat_fn,

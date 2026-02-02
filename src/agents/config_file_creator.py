@@ -54,7 +54,7 @@ class ConfigFileCreator(BaseAgent):
         tree_configurations: dict,
     ) -> str:
 
-        default_config_json = self.read_file(file_path="masterportal-docs/defaults/default.config.json")
+        default_config_json = self.read_file(file_path="project_documents/defaults/default.config.json")
 
         if not default_config_json:
             return "{}"

@@ -1,0 +1,401 @@
+[
+  {
+    "service_id": "1926",
+    "service_name": "dynamic_stations",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1927",
+    "service_name": "geofoxdb_bundr",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1928",
+    "service_name": "geofoxdb_cambio",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1929",
+    "service_name": "geofoxdb_europcar",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1930",
+    "service_name": "geofoxdb_pundr",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1931",
+    "service_name": "geofoxdb_servicestellen",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1933",
+    "service_name": "Haltestellen",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1934",
+    "service_name": "Nachtfahrplan Wochentags",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1935",
+    "service_name": "Normalfahrplan",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1936",
+    "service_name": "Sonderfahrplan",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1937",
+    "service_name": "Nachtfahrplan Wochenende",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1938",
+    "service_name": "geofoxdb_zahlgrenzen",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1939",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1940",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt_nacht",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1941",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt_normal",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1942",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt_sonderfahrplan",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1943",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt_we_nacht",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1944",
+    "service_name": "geofoxdb_zahlgrenzen_nacht",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1945",
+    "service_name": "geofoxdb_zahlgrenzen_normal",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1946",
+    "service_name": "geofoxdb_zahlgrenzen_sonderfahrplan",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "1947",
+    "service_name": "geofoxdb_zahlgrenzen_we_nacht",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "2921",
+    "service_name": "geofoxdb_switchh_points",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5246",
+    "service_name": "Haltestellen",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5247",
+    "service_name": "Nachtfahrplan Wochenende",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5248",
+    "service_name": "Nachtfahrplan Wochentags",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5249",
+    "service_name": "Normalfahrplan",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5250",
+    "service_name": "Sonderfahrplan",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5251",
+    "service_name": "dynamic_stations",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5252",
+    "service_name": "geofoxdb_bundr",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5253",
+    "service_name": "geofoxdb_cambio",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5254",
+    "service_name": "geofoxdb_europcar",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5255",
+    "service_name": "geofoxdb_pundr",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5256",
+    "service_name": "geofoxdb_servicestellen",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5257",
+    "service_name": "geofoxdb_switchh_points",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5258",
+    "service_name": "geofoxdb_zahlgrenzen",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5259",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5260",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt_nacht",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5261",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt_normal",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5262",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt_sonderfahrplan",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5263",
+    "service_name": "geofoxdb_zahlgrenzen_gedehnt_we_nacht",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5264",
+    "service_name": "geofoxdb_zahlgrenzen_nacht",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5265",
+    "service_name": "geofoxdb_zahlgrenzen_normal",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5266",
+    "service_name": "geofoxdb_zahlgrenzen_sonderfahrplan",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "5267",
+    "service_name": "geofoxdb_zahlgrenzen_we_nacht",
+    "md_id": "7A77D5EA-C3B4-44D9-8004-36D5D324485D",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=7A77D5EA-C3B4-44D9-8004-36D5D324485D"
+  },
+  {
+    "service_id": "19621",
+    "service_name": "Netz Echtzeit Zoom5",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19622",
+    "service_name": "Pfeile Echtzeit Zoom5",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19623",
+    "service_name": "Netz Echtzeit Zoom4",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19624",
+    "service_name": "Pfeile Echtzeit Zoom4",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19625",
+    "service_name": "Netz Echtzeit Zoom3",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19626",
+    "service_name": "Pfeile Echtzeit Zoom3",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19627",
+    "service_name": "Netz Echtzeit Zoom2",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19628",
+    "service_name": "Pfeile Echtzeit Zoom2",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19629",
+    "service_name": "Netz Echtzeit Zoom1",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19630",
+    "service_name": "Pfeile Echtzeit Zoom1",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19631",
+    "service_name": "Netz Echtzeit Zoom0",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19632",
+    "service_name": "Pfeile Echtzeit Zoom0",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  },
+  {
+    "service_id": "19633",
+    "service_name": "Text Echtzeit Zoom1",
+    "md_id": "9D9569EE-B896-4505-BD01-E143816F6D72",
+    "csw_url": "https://hmdk.metaver.de/csw",
+    "error": "403 Client Error: Forbidden for url: https://hmdk.metaver.de/csw?REQUEST=GetRecordById&SERVICE=CSW&VERSION=2.0.2&id=9D9569EE-B896-4505-BD01-E143816F6D72"
+  }
+]
