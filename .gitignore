@@ -13,7 +13,7 @@ portalconfigs/
 cleanJson/
 src/utils/createdConfig.json
 src/utils/hal_check.py
-
+logs/
 # Python cache
 __pycache__/
 *.py[cod]

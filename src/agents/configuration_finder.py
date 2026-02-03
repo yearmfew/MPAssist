@@ -21,6 +21,7 @@ class ConfigurationFinder(BaseAgent):
         db_manager._init_vector_store()
         self.halisunation_checker = HalisunationChecker()
         self.project_documents_path = "project_documents/"
+        self.halisunation_errors = {}
 
     def _label_chunks(self, chunks: list, templateName: str = "", priority_map: dict = {}) -> list:
         labeled_chunks = []
@@ -78,6 +79,7 @@ class ConfigurationFinder(BaseAgent):
         )
 
         if validation_result["valid"]:
+            self.halisunation_errors[config_object_id] = {"valid": True, "errors": []}
             return configurations
         else:
             self.print_nice(
@@ -86,6 +88,7 @@ class ConfigurationFinder(BaseAgent):
             )
 
             errors = validation_result["errors"]
+            self.halisunation_errors[config_object_id] = {"valid": False, "errors": errors}
 
             halisunation_fix_prompt = self.create_prompt_template(
                 template=TEMPLATE_HALISUNATION_FIXER,
