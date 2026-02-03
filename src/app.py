@@ -27,7 +27,7 @@ def chat_fn(message: str, history: list):
         yield history, "", gr.update(visible=True), gr.update(interactive=True), gr.update(interactive=True)
 
     except Exception as e:
-        error_msg = f"❌ An error occurred: {str(e)}"
+        error_msg = f"An error occurred: {str(e)}"
         print(f"Error in chat_fn: {str(e)}")
         history.append({"role": "assistant", "content": error_msg})
         yield history, "", gr.update(visible=False), gr.update(interactive=True), gr.update(interactive=True)
@@ -67,22 +67,29 @@ def reset_conversation():
 
 
 with gr.Blocks(fill_height=True) as GradioInterface:
-    gr.Markdown("# 🎯 MPAssist")
+    gr.Markdown("# MPAssist")
 
     chatbot = gr.Chatbot(
         label="Conversation",
         height=600,
-        value=[{"role": "assistant", "content": "Hallo! Welche Art von Masterportal möchten Sie erstellen?"}],  # type: ignore
+        value=[
+            {
+                "role": "assistant",
+                "content": "Hallo! Ich bin MPAssist, Ihr Assistent für die Erstellung von Masterportal-Konfigurationsdateien. "
+                "Ich helfe Ihnen dabei, eine angepasste `config.json` Datei basierend auf Ihren Anforderungen zu erstellen. "
+                "Bitte beschreiben Sie die Art des Portals, das Sie erstellen möchten, und seine Funktionen.",
+            },
+        ],  # type: ignore
     )
 
     with gr.Row():
         generate_button = gr.Button(
-            "⚙️ Generate Configuration",
+            "Generate Configuration",
             visible=False,
             variant="primary",
         )
         reset_button = gr.Button(
-            "🔄 Reset",
+            "Reset",
             variant="secondary",
         )
 

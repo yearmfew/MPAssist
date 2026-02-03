@@ -20,6 +20,7 @@ services:
     # Mount src for hot-reload during development
     volumes:
       - ../src:/app/src
+      - ../logs:/app/logs
     # Expose Gradio port
     ports:
       - "7860:7860"
