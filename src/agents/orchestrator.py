@@ -20,9 +20,6 @@ class Orchestrator(BaseAgent):
 
         yield self.conversation_for_requirements
 
-        if response.get("isFinished"):
-            yield from self.generate_config(history=history)
-
     def generate_config(self, history: list):
         if not self.conversation_for_requirements:
             yield "Please chat first to specify your requirements."
@@ -46,36 +43,35 @@ class Orchestrator(BaseAgent):
                 message=f"Failed to extract requirements: {str(e)}",
             )
             return
-
-        yield "Creating map configuration..."
+        yield "1. Erstelle Kartenkonfiguration..."
         map_configurations = self.configuration_finder.get_map_configurations(summary["requirements"])
 
-        yield "Creating portal footer configuration..."
+        yield "2. Erstelle Portal-Footer-Konfiguration..."
         portal_footer_configurations = self.configuration_finder.get_portal_footer_configurations(
             requirements=summary["requirements"],
             history=history,
         )
 
-        yield "Creating tree configuration..."
+        yield "3. Erstelle Baumstruktur-Konfiguration..."
         tree_configurations = self.configuration_finder.get_tree_configurations(
             requirements=summary["requirements"],
             history=history,
         )
 
-        yield "Creating module configuration..."
+        yield "4. Erstelle Modul-Konfiguration..."
         module_configurations = self.configuration_finder.get_module_configurations(summary["requirements"])
 
-        yield "Creating menu configuration..."
+        yield "5. Erstelle Menü-Konfiguration..."
         menu_configurations = self.configuration_finder.get_menu_configurations(
             requirements=summary["requirements"],
             module_configurations=module_configurations,
             history=history,
         )
 
-        yield "Creating layer configuration..."
+        yield "6. Erstelle Layer-Konfiguration..."
         layer_configurations = self.configuration_finder.get_layer_configurations(summary["requirements"])
 
-        yield "Assembling final config.json..."
+        yield "7. Einen Moment noch. Der letzte Schritt... Stelle finale config.json zusammen..."
         config_json = self.config_file_creator.generate_config_json(
             layer_configurations=json.loads(self.remove_comments(layer_configurations)),
             map_configurations=json.loads(self.remove_comments(map_configurations)),
@@ -98,7 +94,7 @@ class Orchestrator(BaseAgent):
             halisunation_errors=self.configuration_finder.halisunation_errors,
         )
 
-        yield f"\n\n Here is config.json: \n\n```json\n{config_json}\n```"
+        yield f"\n\nHier ist die config.json: \n\n```json\n{config_json}\n```"
 
     def _save_generation_log(self, history: list, configurations: dict, final_config: str, halisunation_errors: dict):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

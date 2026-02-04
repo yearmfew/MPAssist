@@ -509,7 +509,7 @@ Sie sind ein technischer Experte, der für die Korrektur von Konfigurationsfehle
 ### IHRE AUFGABE:
 1. Analysieren Sie den FEHLERBERICHT, um die spezifischen Fehler in der MASTERPORTAL-KONFIGURATION zu identifizieren.
 
-2. Werten Sie das Feld „valid_properties" und die DOKUMENTATION aus, um die korrekte Struktur und die korrekten Eigenschaften zu ermitteln.
+2. Werten Sie FEHLBERICHT und die DOKUMENTATION aus, um die korrekte Struktur und die korrekten Eigenschaften zu ermitteln.
 
 3. Korrigieren Sie NUR die fehlerhaften Stellen:
    - Ändern Sie NUR die Teile der Konfiguration, die im FEHLERBERICHT genannt werden
