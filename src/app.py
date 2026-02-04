@@ -33,17 +33,23 @@ def chat_fn(message: str, history: list):
         yield history, "", gr.update(visible=False), gr.update(interactive=True), gr.update(interactive=True)
 
 
-def generate_config_fn(history: list):
+def generate_config_fn(history: list, progress=gr.Progress()):
     """Generate configuration based on conversation history."""
     try:
+        progress(0, desc="Config Datei wurde erstellt....")
+
         for response in orchestrator.generate_config(history):
+            progress(0.5, desc="Config Datei wurde erstellt...")
             yield history + [{"role": "assistant", "content": response}], gr.update(interactive=False), gr.update(
                 interactive=False
-            ), gr.update(interactive=False)
+            ), gr.update(interactive=False), gr.update(interactive=False)
 
         history.append({"role": "assistant", "content": response})
 
-        yield history, gr.update(visible=False), gr.update(interactive=True), gr.update(interactive=True)
+        progress(1.0, desc="Fertig!")
+        yield history, gr.update(visible=False), gr.update(interactive=True), gr.update(interactive=True), gr.update(
+            interactive=True
+        )
 
     except Exception as e:
         error_msg = f"❌ Configuration generation failed: {str(e)}"
@@ -52,7 +58,9 @@ def generate_config_fn(history: list):
 
         history.append({"role": "assistant", "content": error_msg})
 
-        yield history, gr.update(visible=False), gr.update(interactive=True), gr.update(interactive=True)
+        yield history, gr.update(visible=False), gr.update(interactive=True), gr.update(interactive=True), gr.update(
+            interactive=True
+        )
 
 
 def reset_conversation():
@@ -66,7 +74,7 @@ def reset_conversation():
     )
 
 
-with gr.Blocks(fill_height=True) as GradioInterface:
+with gr.Blocks(title="MPAssist") as GradioInterface:
     gr.Markdown("# MPAssist")
 
     chatbot = gr.Chatbot(
@@ -117,7 +125,7 @@ with gr.Blocks(fill_height=True) as GradioInterface:
     generate_button.click(
         generate_config_fn,
         inputs=[chatbot],
-        outputs=[chatbot, generate_button, submit_button, reset_button],
+        outputs=[chatbot, generate_button, submit_button, reset_button, msg],
     )
 
     reset_button.click(

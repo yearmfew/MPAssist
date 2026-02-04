@@ -95,16 +95,10 @@ class ConfigurationFinder(BaseAgent):
                 context=context,
                 errors=json.dumps(errors, indent=2),
                 configuration_to_fix=configurations,
-                # default_config=default_configurations,
             )
 
             llm_response = self.invoke_llm(halisunation_fix_prompt)
             correctedConfigurations = self.extract_json_from_response(llm_response)
-
-            self.print_nice(
-                title="HALISUNATION FIXED",
-                message=f"haisunations fixed for config_object_id: {config_object_id}",
-            )
 
         return correctedConfigurations
 
@@ -192,11 +186,11 @@ class ConfigurationFinder(BaseAgent):
         layerConfigurations = self.extract_json_from_response(llm_response)
 
         ## Check for halisunation
-        # layerConfigurations = self._check_for_halisunations(
-        #     configurations=layerConfigurations,
-        #     context=context_text,
-        #     config_object_id="layerConfig",
-        # )
+        layerConfigurations = self._check_for_halisunations(
+            configurations=layerConfigurations,
+            context=context_text,
+            config_object_id="layerConfig",
+        )
 
         return layerConfigurations
 
@@ -235,12 +229,12 @@ class ConfigurationFinder(BaseAgent):
         llm_response = self.invoke_llm(full_prompt)
         mapConfigurations = self.extract_json_from_response(llm_response)
 
-        ## Check for halisunation
-        # mapConfigurations = self._check_for_halisunations(
-        #     configurations=mapConfigurations,
-        #     context=context_text,
-        #     config_object_id="map",
-        # )
+        # Check for halisunation
+        mapConfigurations = self._check_for_halisunations(
+            configurations=mapConfigurations,
+            context=context_text,
+            config_object_id="map",
+        )
 
         return mapConfigurations
 
@@ -346,11 +340,11 @@ class ConfigurationFinder(BaseAgent):
         portalFooterConfigurations = self.extract_json_from_response(llm_response)
 
         ## Check for halisunation
-        # portalFooterConfigurations = self._check_for_halisunations(
-        #     configurations=portalFooterConfigurations,
-        #     context=context_text,
-        #     config_object_id="portalFooter",
-        # )
+        portalFooterConfigurations = self._check_for_halisunations(
+            configurations=portalFooterConfigurations,
+            context=context_text,
+            config_object_id="portalFooter",
+        )
 
         return portalFooterConfigurations
 
@@ -382,10 +376,10 @@ class ConfigurationFinder(BaseAgent):
         treeConfigurations = self.extract_json_from_response(llm_response)
 
         ## Check for halisunation
-        # treeConfigurations = self._check_for_halisunations(
-        #     configurations=treeConfigurations,
-        #     context=context_text,
-        #     config_object_id="tree",
-        # )
+        treeConfigurations = self._check_for_halisunations(
+            configurations=treeConfigurations,
+            context=context_text,
+            config_object_id="tree",
+        )
 
         return treeConfigurations
