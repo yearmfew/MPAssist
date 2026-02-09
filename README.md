@@ -1,52 +1,61 @@
 # MPAssist
-Config file creation using llms. 
 
-# Run project on local with python
+Masterportal Configuration Assistant - Generate `config.json` files using AI.
 
-## 1. Start Ollama service
-ollama serve
+This application helps you create configuration files for the Masterportal WebGIS platform through an interactive conversational interface powered by IONOS AI Model Hub.
 
-## 2. Pull required models (first time only)
-ollama pull llama3
-ollama pull mxbai-embed-large
+## Quick Start (Web Interface)
 
-## 3. Install Python dependencies
-pip install -r requirements.txt
+### Prerequisites
+- Python 3.10+
 
-## 4. Create vector database (first time only)
-python ingest.py
+### Installation (Docker)
 
-## 5. Run the application
-cd src
-python main.py
+1. Clone the repository and change into the project directory:
 
-
-# Quick Start with Docker
-
-*NOTE:* Using Ollama on docker container forces the system. It could be harmful if your system not have that power.
-On mac m1 and 16GB Ram it makes too much noises at the last step :) 
-
-Running LLM on container will be removed in later processes of project. 
-Right now it is not recommended to run the app on docker.
-
-## 1. Clone the repository
+```bash
 git clone <repo-url>
 cd MPAssist
+```
+2. Create .env file using env.example file. Paste your Token here
 
-## 2. Navigate to docker directory
+3. Create vector database using ingest.py
+```bash
+python ingest.py
+```
+
+4. Create env file and add your token in this file. Use the template env.examle. 
+
+
+5. Change into the Docker directory:
+
+```bash
 cd docker
+```
 
-## 3. Build and start Ollama service
-docker-compose up -d ollama
+6. Build the Docker image:
 
-## 4. Run the application
-docker-compose run --rm mpassist-app
+```bash
+docker-compose build --no-cache
+```
+
+7. Start the container:
+
+```bash
+docker-compose up
+```
+
+The web app will be available at: http://localhost:7860
 
 
+## Some helper commands (Development)
 
+- Docker — remove all unused images, containers and volumes:
+```bash
+docker system prune -a --volumes
+```
 
-
-
-## Clear python cache folders on terminal in src ordner 
-
+- Clear Python cache:
+```bash
 find . -type d -name "__pycache__" -exec rm -rf {} +
+```

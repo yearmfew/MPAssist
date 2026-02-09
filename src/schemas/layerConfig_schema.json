@@ -1,0 +1,432 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "layerConfig": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "baselayer": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "elements": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/element"
+                            }
+                        }
+                    }
+                },
+                "subjectlayer": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "elements": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/element"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "element": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "name": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "shortname": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "layer",
+                        "folder"
+                    ]
+                },
+                "typ": {
+                    "type": "string"
+                },
+                "elements": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/element"
+                    }
+                },
+                "deactivateShowAllCheckbox": {
+                    "type": "boolean"
+                },
+                "autoRefresh": {
+                    "type": "integer"
+                },
+                "capabilitiesUrl": {
+                    "type": "string"
+                },
+                "filterRefId": {
+                    "type": "integer"
+                },
+                "fitCapabilitiesExtent": {
+                    "type": "boolean"
+                },
+                "isPointLayer": {
+                    "type": "boolean"
+                },
+                "preview": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "src": {
+                            "type": "string"
+                        },
+                        "center": {
+                            "oneOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "radius": {
+                            "type": "number"
+                        },
+                        "checkable": {
+                            "type": "boolean"
+                        },
+                        "zoomLevel": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "renderer": {
+                    "type": "string",
+                    "enum": [
+                        "default",
+                        "webgl"
+                    ]
+                },
+                "showInLayerTree": {
+                    "type": "boolean"
+                },
+                "transparency": {
+                    "type": "integer"
+                },
+                "urlIsVisible": {
+                    "type": "boolean"
+                },
+                "visibility": {
+                    "type": "boolean"
+                },
+                "styleId": {
+                    "type": "string"
+                },
+                "extent": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "featureCount": {
+                    "type": "number"
+                },
+                "gfiAsNewWindow": {
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "enum": [
+                                        "_blank",
+                                        "_self"
+                                    ]
+                                },
+                                "specs": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "styles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "additionalInfoField": {
+                    "type": "string"
+                },
+                "clusterDistance": {
+                    "type": "integer"
+                },
+                "hitTolerance": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ]
+                },
+                "loadingStrategy": {
+                    "type": "string",
+                    "enum": [
+                        "bbox",
+                        "all"
+                    ]
+                },
+                "mouseHoverField": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "nearbyTitle": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "searchField": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "styleGeometryType": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "isNeverVisibleInTree": {
+                    "type": "boolean"
+                },
+                "escapeChar": {
+                    "type": "string"
+                },
+                "featurePrefix": {
+                    "type": "string"
+                },
+                "singleChar": {
+                    "type": "string"
+                },
+                "valueDelimiter": {
+                    "type": "string"
+                },
+                "wildCard": {
+                    "type": "string"
+                },
+                "useMpFonts": {
+                    "type": "boolean"
+                },
+                "vtStyles": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            },
+                            "defaultStyle": {
+                                "type": "boolean"
+                            },
+                            "resolutions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "hiddenFeatures": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "cesium3DTilesetOptions": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "maximumScreenSpaceError": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cesiumTerrainProviderOptions": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "requestVertexNormals": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "entities": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "url": {
+                                "type": "string"
+                            },
+                            "attributes": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "latitude": {
+                                "type": "number"
+                            },
+                            "longitude": {
+                                "type": "number"
+                            },
+                            "height": {
+                                "type": "number"
+                            },
+                            "heading": {
+                                "type": "number"
+                            },
+                            "pitch": {
+                                "type": "number"
+                            },
+                            "roll": {
+                                "type": "number"
+                            },
+                            "scale": {
+                                "type": "number"
+                            },
+                            "allowPicking": {
+                                "type": "boolean"
+                            },
+                            "show": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                "gfiAttributes": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                },
+                "layerAttribution": {
+                    "type": "string"
+                },
+                "legend": {
+                    "oneOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "url": {
+                    "type": "string"
+                },
+                "epsg": {
+                    "type": "string"
+                },
+                "styleField": {
+                    "type": "string"
+                },
+                "wfsFilter": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

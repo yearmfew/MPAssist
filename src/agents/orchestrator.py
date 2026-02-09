@@ -1,386 +1,278 @@
-from __future__ import annotations
-
-from langchain_core.prompts import PromptTemplate
-
-from agents.prompt_generator import PromptGenerator
-from agents.tool_finder import ToolFinder
+import json
+from datetime import datetime
+from pathlib import Path
+from agents.requirement_finder import RequirementFinder
 from agents.config_file_creator import ConfigFileCreator
-
-from utils.console import *
-from utils.spinner import SpinnerContext
-from utils import db_manager
-
-from template import TEMPLATE_SIMPLE
+from agents.configuration_finder import ConfigurationFinder
+from agents.base_agent import BaseAgent
+from utils.template import TEMPLATE_REVIEW
+from utils.settings import K
 
 
-class Orchestrator:
-    """
-    Orchestrator Agent
-
-    Responsibility: Coordinates the entire workflow between agents.
-    - Core Logic: Manages multi-agent workflow (requirement gathering → tool finding → config generation)
-    - Terminal UI: Provides CLI interaction (can be replaced with API in the future)
-
-    Architecture:
-    - find_requirements(): Conversational requirement gathering with user
-    - process_query(): Process requirements through PromptGenerator → ToolFinder pipeline
-    - run_terminal_interface(): Terminal-specific UI layer (future: replace with API)
-    """
-
+class Orchestrator(BaseAgent):
     def __init__(self):
-        """Initialize the orchestrator with all agents."""
-        self.prompt_generator = PromptGenerator()
-        self.tool_finder = ToolFinder()
-        self.config_creator = ConfigFileCreator()
+        super().__init__()
+        self.requirement_finder = RequirementFinder()
+        self.configuration_finder = ConfigurationFinder()
+        self.config_file_creator = ConfigFileCreator()
+        self.conversation_for_requirements = ""
+        self.latest_config_json = None
+        self.review_mode = False
 
-    def find_requirements(self, initial_user_input: str) -> list[str]:
-        """
-        CORE ORCHESTRATION: Conversational requirement gathering with user.
+    def run(self, message: str, history: list):
+        response = self.requirement_finder.chat_to_find_requirements(message, history)
+        self.conversation_for_requirements = str(response["llm_response"])
 
-        Uses the PromptGenerator in 'requirement gathering' mode to have a conversation
-        with the user and collect requirements through multi-turn interaction.
+        yield self.conversation_for_requirements
 
-        Workflow:
-        1. User provides initial requirements via normal Python input
-        2. LLM asks clarifying questions using TEMPLATE_REQUIREMENT_GATHERER
-        3. User responds with information
-        4. Conversation continues until LLM has enough information
-        5. LLM outputs final requirements list
+    def generate_config(self, history: list):
+        if not self.conversation_for_requirements:
+            yield "Please chat first to specify your requirements."
+            return
 
-        Args:
-            initial_user_input: Initial requirements from user (optional)
+        self.configuration_finder.halisunation_errors = {}
 
-        Returns:
-            List of gathered requirements (strings)
-        """
-        print_step("Starting requirement gathering conversation")
-        print_info("The system will ask you questions to understand your needs.")
+        try:
+            summary = self.requirement_finder.extract_requirements_as_dict(self.conversation_for_requirements)
 
-        # Multi-turn conversation history
-        conversation_history = []
-
-        # Add initial user input to conversation history if provided
-        if initial_user_input:
-            conversation_history.append({"role": "user", "content": initial_user_input})
-
-        max_turns = 10  # Prevent infinite loops
-
-        for turn in range(max_turns):
-            # Use PromptGenerator in requirement gathering mode
-            with SpinnerContext("Thinking"):
-                llm_message = self.prompt_generator.gather_requirements(
-                    conversation_history
-                )
-
-            print_assistant(llm_message)
-
-            # Check if LLM has finished gathering (indicates ready with special marker)
-            if "[REQUIREMENTS_READY]" in llm_message:
-                # Extract the requirements from the message
-                requirements = self._extract_requirements_from_message(llm_message)
-                print_success("Requirements gathered successfully!")
-                return requirements
-
-            # Get user response
-            try:
-                user_response = print_user_prompt("You: ").strip()
-                if not user_response:
-                    print_error("Please provide a response.")
-                    continue
-
-                # Add to conversation history
-                conversation_history.append(
-                    {"role": "assistant", "content": llm_message}
-                )
-                conversation_history.append({"role": "user", "content": user_response})
-
-            except (EOFError, KeyboardInterrupt):
-                print_error("Conversation interrupted. Using partial requirements.")
-                return self._extract_requirements_from_history(conversation_history)
-
-        # Max turns reached
-        print_warning("Maximum conversation turns reached. Finalizing requirements.")
-        return self._extract_requirements_from_history(conversation_history)
-
-    def _extract_requirements_from_message(self, message: str) -> list[str]:
-        """
-        Extract requirements list from LLM message containing [REQUIREMENTS_READY] marker.
-
-        Args:
-            message: LLM message with requirements
-
-        Returns:
-            List of requirement strings
-        """
-        import re
-
-        requirements = []
-        lines = message.split("\n")
-
-        # Find "Final Requirements Summary:" section
-        in_summary_section = False
-        for line in lines:
-            line_stripped = line.strip()
-
-            # Detect start of summary section
-            if "final requirements summary" in line_stripped.lower():
-                in_summary_section = True
-                continue
-
-            # Stop at [REQUIREMENTS_READY] marker
-            if "[REQUIREMENTS_READY]" in line_stripped:
-                break
-
-            # Extract numbered requirements (e.g., "1. Requirement text")
-            if in_summary_section:
-                match = re.match(r"^(\d+)\.\s+(.+?)$", line_stripped)
-                if match:
-                    requirement_text = match.group(2).strip()
-                    # Skip meta-text like "These requirements are now complete"
-                    if requirement_text and not requirement_text.lower().startswith(
-                        ("these requirements", "ready to")
-                    ):
-                        requirements.append(requirement_text)
-
-        return (
-            requirements if requirements else ["User request captured in conversation"]
-        )
-
-    def _extract_requirements_from_history(self, history: list[dict]) -> list[str]:
-        """
-        Extract requirements from incomplete conversation history.
-
-        Args:
-            history: Conversation history
-
-        Returns:
-            List of requirement strings extracted from user messages
-        """
-        requirements = []
-        for msg in history:
-            if msg["role"] == "user":
-                requirements.append(msg["content"])
-        return requirements if requirements else ["No specific requirements captured"]
-
-    def process_query(self, requirements: list[str]) -> str:
-        """
-        CORE ORCHESTRATION: Process requirements through the multi-agent pipeline.
-
-        Workflow:
-        1. ToolFinder analyzes requirements and finds suitable tools/layers
-        2. ConfigFileCreator generates config.json using tools/layers
-
-        Args:
-            requirements: List of gathered requirements
-
-        Returns:
-            The final generated config.json from ConfigFileCreator
-        """
-        # Combine requirements into a structured text
-        requirements_text = "\n".join(f"- {req}" for req in requirements)
-        # =============================== #
-        # Step 1: Find tools and layers
-        # =============================== #
-
-        print_step("Step 1: Finding suitable tools and layers")
-        with SpinnerContext("Analyzing requirements and finding tools"):
-            tools_and_layers = self.tool_finder.execute(requirements_text)
-        print_box("Tools & Layers (from ToolFinder)", "BLUE", 60)
-        # Optionally print the tools (commented out to reduce noise)
-        print(tools_and_layers)
-        print_box_end(60, "BLUE")
-
-        # =============================== #
-        # Step 2: Generate config.json
-        # =============================== #
-
-        print_step("Step 2: Generating config.json")
-        with SpinnerContext("Generating configuration file"):
-            config_json = self.config_creator.execute(tools_and_layers)
-
-        return config_json
-
-    def simple_chat(self):
-        """
-        CORE ORCHESTRATION: Simple Q&A chat about Masterportal using RAG.
-
-        Uses TEMPLATE_SIMPLE for basic question-answering with vector DB retrieval.
-        Allows users to ask questions about Masterportal documentation.
-        """
-        print_header("What do you want to know about Masterportal?", "💬")
-        print_info("Type 'back' to return to main menu, 'exit' to quit")
-
-        # Ensure vector store is initialized
-        if db_manager._retriever is None:
-            db_manager._init_vector_store()
-
-        while True:
-            # Get user question
-            question = print_question_prompt("Your question: ")
-
-            if question is None:
-                break
-
-            if question.lower() == "back":
-                print_info("Returning to main menu...")
-                break
-
-            # Retrieve relevant context with metadata labels
-            with SpinnerContext("Searching documentation"):
-                docs = db_manager._retriever.invoke(question)
-
-                # Add metadata labels to context
-                context_parts = []
-                for d in docs:
-                    category = d.metadata.get("category", "unknown").upper()
-                    source = d.metadata.get("source", "unknown")
-                    labeled_chunk = (
-                        f"[CATEGORY: {category}] [SOURCE: {source}]\n{d.page_content}"
-                    )
-                    context_parts.append(labeled_chunk)
-
-                context_text = "\n\n---\n\n".join(context_parts)
-
-                # Format prompt with TEMPLATE_SIMPLE
-                prompt_template = PromptTemplate.from_template(TEMPLATE_SIMPLE)
-                try:
-                    full_prompt = prompt_template.format(
-                        context=context_text, question=question
-                    )
-                except Exception:
-                    full_prompt = TEMPLATE_SIMPLE.replace(
-                        "{context}", context_text
-                    ).replace("{question}", question)
-
-                # Get answer from LLM
-                answer = self.prompt_generator.invoke_llm(full_prompt)
-
-            # Display answer
-            print_assistant(answer)
-
-    # ============================================================================
-    # TERMINAL UI LAYER (Future: Replace with API)
-    # ============================================================================
-    # This section contains terminal/CLI-specific code that handles user interaction
-    # through the command line. In the future, this layer will be replaced with
-    # an API endpoint that accepts requests and returns responses.
-    #
-    # Core orchestration logic (find_requirements, process_query) is separate
-    # and can be called from API handlers without modification.
-    # ============================================================================
-
-    def run_terminal_interface(self):
-        """
-        TERMINAL UI: Main interactive command-line interface.
-
-        This method provides terminal-based user interaction. It will be replaced
-        with API endpoints in future versions.
-
-        Future replacement: FastAPI/Flask endpoints that call find_requirements()
-        and process_query() directly.
-        """
-        self._display_terminal_welcome()
-
-        print_separator("=", 60, "BLUE")
-        print_info("  Interactive Mode - Type 'exit' to quit")
-        print_separator("=", 60, "BLUE")
-
-        while True:
-            # Ask if user wants to start
-            start_input = self._get_terminal_input(
-                "\nStart new configuration? (yes/no or 'exit' to quit): "
+            self.print_nice(
+                title="Extracted JSON Summary",
+                message=str(summary),
             )
 
-            if start_input is None:
-                break
-
-            # If user says no, go directly to chat mode
-            if start_input.lower() in ("no", "n"):
-                self.simple_chat()
-                continue
-
-            if start_input.lower() not in ("yes", "y"):
-                print_warning("Please answer 'yes' or 'no'")
-                continue
-
-            print_separator("─", 60, "YELLOW")
-            print_header("Starting new configuration request", "📝")
-            print_separator("─", 60, "YELLOW")
-
-            # Invoke the multi-step flow: find_requirements → process_query
-            try:
-                # First, get initial requirements with normal Python input
-                print_info(
-                    "Please specify your requirements for the Masterportal configuration."
-                )
-                initial_requirements = print_user_prompt("Your requirements: ").strip()
-
-                if not initial_requirements:
-                    print_error("No requirements provided. Please try again.")
-                    continue
-
-                # Step 1: Gather requirements through conversation (starting with initial input)
-                requirements = self.find_requirements(
-                    initial_user_input=initial_requirements
-                )
-
-                # Display gathered requirements
-                print_header("Gathered Requirements", "📋")
-                for i, req in enumerate(requirements, 1):
-                    print(f"  {i}. {req}")
-
-                # Step 2: Process requirements to generate configuration
-                answer = self.process_query(requirements)
-
-                # Print the answer
-                print_box("Generated Configuration", "GREEN", 60)
-                print(answer)
-                print_box_end(60, "GREEN")
-
-            except Exception as e:
-                print_error(f"Error in workflow: {e}")
-                import traceback
-
-                traceback.print_exc()
-
-            print_success("Configuration complete. You can start another request.")
-
-        print_header("Exiting interactive mode. Goodbye!", "👋")
-
-    def _display_terminal_welcome(self):
-        """TERMINAL UI: Display welcome message."""
-        print_separator("=", 60, "HEADER")
-        print_header("MPAssist - Masterportal Configuration Assistant")
-        print_separator("=", 60, "HEADER")
-
-        print_info("Loading chat model...")
-        print_success("Setting up RAG components...")
-
-    def _get_terminal_input(self, prompt_text: str) -> str | None:
-        """
-        TERMINAL UI: Get user input from terminal.
-
-        Args:
-            prompt_text: The prompt to display to user
-
-        Returns:
-            User input string, or None if interrupted/exit requested
-        """
+            if not summary:
+                return
+        except Exception as e:
+            self.print_nice(
+                title="Error extracting requirements",
+                message=f"Failed to extract requirements: {str(e)}",
+            )
+            return
+        yield "1. Erstelle Map Konfiguration..."
         try:
-            user_input = input(prompt_text).strip()
-        except (EOFError, KeyboardInterrupt):
-            return None
+            map_configurations = self.configuration_finder.get_map_configurations(summary["requirements"])
+        except Exception as e:
+            self.print_nice(
+                title="Error generating map configuration",
+                message=f"Failed to generate map configuration: {str(e)}",
+            )
+            map_configurations = "{}"
 
-        if not user_input or user_input.lower() in ("exit", "quit"):
-            return None
+        self.print_nice(
+            title="Map Configurations",
+            message=str(map_configurations),
+        )
 
-        return user_input
+        yield "2. Erstelle Portal-Footer Konfiguration..."
 
-    # Legacy method for backwards compatibility
-    def run(self):
-        """
-        Main entry point. Delegates to terminal interface.
+        try:
+            portal_footer_configurations = self.configuration_finder.get_portal_footer_configurations(
+                requirements=summary["requirements"],
+                history=history,
+            )
+        except Exception as e:
+            self.print_nice(
+                title="Error generating portal footer configuration",
+                message=f"Failed to generate portal footer configuration: {str(e)}",
+            )
+            portal_footer_configurations = "{}"
+        self.print_nice(
+            title="Portal Footer Configurations",
+            message=str(portal_footer_configurations),
+        )
 
-        In future versions, this would route to appropriate interface (terminal/API).
-        """
-        self.run_terminal_interface()
+        yield "3. Erstelle Tree Konfiguration..."
+
+        try:
+            tree_configurations = self.configuration_finder.get_tree_configurations(
+                requirements=summary["requirements"],
+                history=history,
+            )
+        except Exception as e:
+            self.print_nice(
+                title="Error generating tree configuration",
+                message=f"Failed to generate tree configuration: {str(e)}",
+            )
+            tree_configurations = "{}"
+        self.print_nice(
+            title="Tree Configurations",
+            message=str(tree_configurations),
+        )
+
+        yield "4. Erstelle Module Konfiguration..."
+
+        try:
+            module_configurations = self.configuration_finder.get_module_configurations(
+                requirements=summary["requirements"],
+            )
+        except Exception as e:
+            self.print_nice(
+                title="Error generating module configuration",
+                message=f"Failed to generate module configuration: {str(e)}",
+            )
+            module_configurations = "{}"
+        self.print_nice(
+            title="Module Configurations",
+            message=str(module_configurations),
+        )
+
+        yield "5. Erstelle Menu Konfiguration..."
+
+        try:
+            menu_configurations = self.configuration_finder.get_menu_configurations(
+                requirements=summary["requirements"],
+                module_configurations=module_configurations,
+                history=history,
+            )
+        except Exception as e:
+            self.print_nice(
+                title="Error generating menu configuration",
+                message=f"Failed to generate menu configuration: {str(e)}",
+            )
+            menu_configurations = "{}"
+        self.print_nice(
+            title="Menu Configurations",
+            message=str(menu_configurations),
+        )
+
+        yield "6. Erstelle Layer Konfiguration..."
+
+        try:
+            layer_configurations = self.configuration_finder.get_layer_configurations(
+                requirements=summary["requirements"],
+            )
+        except Exception as e:
+            self.print_nice(
+                title="Error generating layer configuration",
+                message=f"Failed to generate layer configuration: {str(e)}",
+            )
+            layer_configurations = "{}"
+
+        self.print_nice(
+            title="Layer Configurations",
+            message=str(layer_configurations),
+        )
+
+        yield "7. Einen Moment noch. Der letzte Schritt... Stelle finale config.json zusammen..."
+
+        try:
+            map_config_parsed = json.loads(self.remove_comments(map_configurations))
+        except json.JSONDecodeError as e:
+            raise Exception(f"Map Configuration JSON Parse Error: {str(e)}\n\nContent:\n{map_configurations[:500]}")
+
+        try:
+            portal_footer_parsed = json.loads(self.remove_comments(portal_footer_configurations))
+        except json.JSONDecodeError as e:
+            raise Exception(
+                f"Portal Footer Configuration JSON Parse Error: {str(e)}\n\nContent:\n{portal_footer_configurations[:500]}"
+            )
+
+        try:
+            tree_config_parsed = json.loads(self.remove_comments(tree_configurations))
+        except json.JSONDecodeError as e:
+            raise Exception(f"Tree Configuration JSON Parse Error: {str(e)}\n\nContent:\n{tree_configurations[:500]}")
+
+        try:
+            menu_config_parsed = json.loads(self.remove_comments(menu_configurations))
+        except json.JSONDecodeError as e:
+            raise Exception(f"Menu Configuration JSON Parse Error: {str(e)}\n\nContent:\n{menu_configurations[:500]}")
+
+        try:
+            layer_config_parsed = json.loads(self.remove_comments(layer_configurations))
+        except json.JSONDecodeError as e:
+            raise Exception(f"Layer Configuration JSON Parse Error: {str(e)}\n\nContent:\n{layer_configurations[:500]}")
+
+        self.print_nice(
+            title="Parsed Configurations",
+            message=(
+                f"Map: {map_config_parsed}\n\n"
+                f"Portal Footer: {portal_footer_parsed}\n\n"
+                f"Tree: {tree_config_parsed}\n\n"
+                f"Menu: {menu_config_parsed}\n\n"
+                f"Layer: {layer_config_parsed}\n\n"
+            ),
+        )
+
+        config_json = self.config_file_creator.generate_config_json(
+            layer_configurations=layer_config_parsed,
+            map_configurations=map_config_parsed,
+            menu_configurations=menu_config_parsed,
+            portal_footer_configurations=portal_footer_parsed,
+            tree_configurations=tree_config_parsed,
+        )
+
+        self._save_generation_log(
+            history=history,
+            configurations={
+                "map": map_configurations,
+                "portalFooter": portal_footer_configurations,
+                "tree": tree_configurations,
+                "modules": module_configurations,
+                "menu": menu_configurations,
+                "layers": layer_configurations,
+            },
+            final_config=config_json,
+            halisunation_errors=self.configuration_finder.halisunation_errors,
+        )
+
+        self.latest_config_json = config_json
+
+        yield "Config.json ist erstellt."
+
+    def review_config(self, message: str, history: list):
+        """Review and edit the generated configuration based on user feedback."""
+        if not self.latest_config_json:
+            yield "No configuration available to review. Please generate a configuration first."
+            return
+
+        chunks = self.get_chunks(
+            query=str(message),
+            k=K,
+            filter={"category": "mainDocumentation"},
+        )
+
+        context_text = "\n\n---\n\n".join(chunks)
+
+        full_prompt = self.create_prompt_template(
+            template=TEMPLATE_REVIEW,
+            context=context_text,
+            message=message,
+            config_file=self.latest_config_json,
+        )
+
+        llm_response = self.invoke_llm(full_prompt)
+        self.latest_config_json = self.extract_json_from_response(llm_response)
+
+        yield "Konfiguration wird überprüft..."
+
+        yield "Überprüfung der Konfiguration abgeschlossen."
+
+    def _save_generation_log(self, history: list, configurations: dict, final_config: str, halisunation_errors: dict):
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        workspace_root = Path(__file__).parent.parent.parent
+        log_dir = workspace_root / "logs"
+        log_dir.mkdir(exist_ok=True)
+
+        def parse_json(value):
+            try:
+                return json.loads(value) if isinstance(value, str) else value
+            except:
+                return value
+
+        log_data = {
+            "timestamp": timestamp,
+            "conversation_history": history,
+            "generated_configurations": {k: parse_json(v) for k, v in configurations.items()},
+            "halisunation_errors": halisunation_errors,
+            "final_config_json": parse_json(final_config),
+        }
+
+        log_file = log_dir / f"config_generation_{timestamp}.json"
+        with open(log_file, "w", encoding="utf-8") as f:
+            json.dump(log_data, f, indent=2, ensure_ascii=False)
+
+        self.print_nice(
+            title="LOG SAVED",
+            message=f"Generation log saved to {log_file}",
+        )

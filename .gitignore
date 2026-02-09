@@ -1,4 +1,3 @@
-db/
 MPADocs/
 backups/
 .context/
@@ -7,8 +6,22 @@ backups/
 .vscode/
 *.log
 *.tmp
-
+masterportal-docs-short/
+MPAssist.code-workspace
+portalconfigs/
+cleanJson/
+src/utils/createdConfig.json
+src/utils/hal_check.py
+logs/
 # Python cache
 __pycache__/
 *.py[cod]
 *$py.class
+logfile
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env

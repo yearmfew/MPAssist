@@ -2,16 +2,25 @@ langchain==0.3.13
 langchain-community==0.3.13
 langchain-core==0.3.28
 langchain-chroma==0.1.4
-langchain-ollama==0.2.1
-chromadb==0.4.24
-ollama==0.4.4
-unstructured==0.16.13
+langchain-openai==0.2.14
+langchain-huggingface==0.1.2
+chromadb==0.5.23
+openai>=1.0.0
+
+# Embeddings
+sentence-transformers>=2.2.0
+
+# Web UI
+# gradio==4.19.2
+gradio==6.3.0
+python-dotenv>=1.0.0
+
+# Fix tokenizers version conflict (chromadb requires <=0.20.3)
+tokenizers==0.20.3
 
 # Additional dependencies
 markdown==3.7
 lxml==5.3.0
-libmagic==1.0
-filetype==1.2.0
-python-magic==0.4.27
 beautifulsoup4==4.12.3
 urllib3==2.2.3
+jsonschema>=4.0.0

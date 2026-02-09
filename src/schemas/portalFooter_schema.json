@@ -1,0 +1,48 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "portalFooter": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "configPaths": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "scaleLine": {
+                    "type": "boolean"
+                },
+                "scaleLineWidth": {
+                    "type": "number"
+                },
+                "seperator": {
+                    "type": "string"
+                },
+                "urls": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "alias": {
+                                "type": "string"
+                            },
+                            "alias_mobile": {
+                                "type": "string"
+                            },
+                            "bezeichnung": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
