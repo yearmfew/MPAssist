@@ -111,11 +111,26 @@ class BaseAgent(ABC):
         return "{}"
 
     def remove_comments(self, json_string: str):
-        lines = str(json_string).split("\n")
+        json_string = str(json_string).strip()
+
+        # Remove markdown code blocks
+        if json_string.startswith("```"):
+            lines = json_string.split("\n")
+            lines = lines[1:-1] if lines[-1].strip() == "```" else lines[1:]
+            json_string = "\n".join(lines)
+
+        # Remove // comments
+        lines = json_string.split("\n")
         cleaned_lines = []
         for line in lines:
             if "//" in line:
                 if "http://" not in line and "https://" not in line:
                     line = line.split("//")[0]
             cleaned_lines.append(line)
-        return "\n".join(cleaned_lines)
+
+        result = "\n".join(cleaned_lines)
+
+        # Remove trailing commas
+        result = re.sub(r",\s*([}\]])", r"\1", result)
+
+        return result

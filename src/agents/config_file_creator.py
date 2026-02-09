@@ -68,11 +68,58 @@ class ConfigFileCreator(BaseAgent):
             )
             return "{}"
 
-        config_json["portalConfig"]["map"] = map_configurations["map"]
-        config_json["portalConfig"]["portalFooter"] = portal_footer_configurations["portalFooter"]
-        config_json["portalConfig"]["tree"] = tree_configurations["tree"]
-        config_json["portalConfig"]["mainMenu"] = menu_configurations["portalConfig"]["mainMenu"]
-        config_json["portalConfig"]["secondaryMenu"] = menu_configurations["portalConfig"]["secondaryMenu"]
-        config_json["layerConfig"] = layer_configurations["layerConfig"]
+        try:
+            config_json["portalConfig"]["map"] = map_configurations["map"]
+        except (KeyError, TypeError):
+            self.print_nice(
+                title="Warning: Map configuration missing or invalid",
+                message="Using default map configuration.",
+            )
+            config_json["portalConfig"]["map"] = config_json.get("portalConfig", {}).get("map", {})
+
+        try:
+            config_json["portalConfig"]["portalFooter"] = portal_footer_configurations["portalFooter"]
+        except (KeyError, TypeError):
+            self.print_nice(
+                title="Warning: Portal footer configuration missing or invalid",
+                message="Using default portal footer configuration.",
+            )
+            config_json["portalConfig"]["portalFooter"] = config_json.get("portalConfig", {}).get("portalFooter", {})
+
+        try:
+            config_json["portalConfig"]["tree"] = tree_configurations["tree"]
+        except (KeyError, TypeError):
+            self.print_nice(
+                title="Warning: Tree configuration missing or invalid",
+                message="Using default tree configuration.",
+            )
+            config_json["portalConfig"]["tree"] = config_json.get("portalConfig", {}).get("tree", {})
+
+        try:
+            config_json["portalConfig"]["mainMenu"] = menu_configurations["portalConfig"]["mainMenu"]
+        except (KeyError, TypeError):
+            self.print_nice(
+                title="Warning: Main menu configuration missing or invalid",
+                message="Using default main menu configuration.",
+            )
+            config_json["portalConfig"]["mainMenu"] = config_json.get("portalConfig", {}).get("mainMenu", [])
+
+        try:
+            config_json["portalConfig"]["secondaryMenu"] = menu_configurations["portalConfig"]["secondaryMenu"]
+        except (KeyError, TypeError):
+            self.print_nice(
+                title="Warning: Secondary menu configuration missing or invalid",
+                message="Using default secondary menu configuration.",
+            )
+            config_json["portalConfig"]["secondaryMenu"] = config_json.get("portalConfig", {}).get("secondaryMenu", [])
+
+        try:
+            config_json["layerConfig"] = layer_configurations["layerConfig"]
+        except (KeyError, TypeError):
+            self.print_nice(
+                title="Warning: Layer configuration missing or invalid",
+                message="Using default layer configuration.",
+            )
+            config_json["layerConfig"] = config_json.get("layerConfig", [])
 
         return json.dumps(config_json, indent=2)

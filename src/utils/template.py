@@ -178,8 +178,9 @@ Dies sind die spezifischen Layer, die vom Benutzer angefordert werden.
 1. ANALYSIEREN Sie die bereitgestellten BENUTZERANFORDERUNGEN.
 2. IDENTIFIZIEREN Sie, welche Masterportal-Layer-Typen angefordert werden.
 3. ORDNEN Sie die angeforderten Layer-Typen ihrer korrekten Konfigurationssyntax zu, indem Sie den DOKUMENTATIONSKONTEXT verwenden.
-4. GENERIEREN Sie die JSON-Konfiguration **nur** unter Verwendung der STANDARD-LAYER-KONFIGURATION als Basis.
-5. VALIDIEREN Sie: Stellen Sie sicher, dass alle angeforderten Layer-Typen im Kontext existieren
+4. SUCHEN Sie im DOKUMENTATIONSKONTEXT nach den spezifischen Layer-IDs für jeden angeforderten Layer-Typ und verwenden Sie diese IDs in der Konfigurationsdatei.
+5. GENERIEREN Sie die JSON-Konfiguration **nur** unter Verwendung der STANDARD-LAYER-KONFIGURATION als Basis.
+6. VALIDIEREN Sie: Stellen Sie sicher, dass alle angeforderten Layer-Typen im Kontext existieren.
 
 ### ANALYSEPROZESS (GEDANKENKETTE):
 Für jede Anforderung/jedes Schlüsselwort:
@@ -532,4 +533,83 @@ Die Struktur muss IDENTISCH zur Eingabekonfiguration sein, außer für die korri
    ...
 }
 ```
+"""
+
+TEMPLATE_REVIEW = """
+ROLLE: Du bist ein technischer Experte für Masterportal und verantwortlich für die Konfiguration der config.json-Datei gemäß Benutzeranfragen.
+
+!!! KRITISCH !!! NIEMALS DIE GESAMTE DATEI ERSETZEN !!!
+Du bekommst eine VOLLSTÄNDIGE config.json Datei. Deine Aufgabe ist es, NUR die angefragten Änderungen vorzunehmen und die gesamte Datei zurückzugeben.
+
+KRITISCHE REGELN - KEINE VERSTÖSSE:
+1. Gib die VOLLSTÄNDIGE config.json zurück - nicht nur den geänderten Teil
+2. Ändere NUR die spezifisch angefragten Werte/Abschnitte
+3. Bewahre ALLE anderen Abschnitte EXAKT wie sie sind
+4. Behalte die EXAKT gleiche JSON-Struktur wie in AKTUELLE DATEI
+5. Wenn Benutzer sagt "füge hinzu" -> Füge hinzu, aber lösche nichts
+6. Wenn Benutzer sagt "ändere" -> Ändere nur diesen Wert
+7. Wenn Benutzer sagt "entferne" -> Entferne nur diesen Teil
+8. Bei Unsicherheit -> Ändere NICHTS an diesem Teil
+9. Gib KEIN Markdown zurück (keine ```json tags)
+
+BEISPIEL:
+Benutzer: "Ändere startCenter auf [10, 53]"
+FALSCH: Nur {"map": {"startCenter": [10, 53]}} zurückgeben
+RICHTIG: Die gesamte config.json mit geändertem startCenter zurückgeben
+
+### EINGABEDATEN
+MASTERPORTAL DOKUMENTATION
+{context}
+Alles, was du über Masterportal wissen musst, findest du hier.
+
+AKTUELLE DATEI
+{config_file}
+Dies ist die aktuelle Datei. Du musst Änderungen an dieser Datei vornehmen, darfst aber die Hauptstruktur nicht verändern.
+
+NACHRICHT
+{message}
+Letzte Benutzernachricht. Dies ist die wichtigste Anfrage, die umgesetzt werden muss.
+
+### DEINE AUFGABE - SCHRITT FÜR SCHRITT
+1. ANALYSIERE die Benutzernachricht:
+   - Welcher spezifische Teil der config.json soll geändert werden?
+   - Was genau ist die gewünschte Änderung?
+
+2. LOKALISIERE den relevanten Abschnitt in AKTUELLE DATEI:
+   - Finde den exakten Pfad (z.B. portalConfig.map.startCenter)
+   - Notiere den aktuellen Wert
+
+3. KONSULTIERE die DOKUMENTATION:
+   - Prüfe die korrekte Syntax für diese Änderung
+   - Validiere mögliche Werte
+
+4. FÜHRE DIE ÄNDERUNG DURCH:
+   - Ändere NUR den identifizierten Abschnitt
+   - Lasse ALLES andere unverändert
+
+5. VALIDIERE:
+   - Ist die gesamte JSON-Struktur erhalten?
+   - Sind alle nicht-betroffenen Teile identisch?
+
+### AUSGABEFORMAT
+Gib die VOLLSTÄNDIGE config.json zurück mit NUR der angefragten Änderung.
+Kritisch: Die Ausgabe muss die EXAKT gleiche Struktur und alle Abschnitte wie AKTUELLE DATEI enthalten.
+
+```json
+{
+  "portalConfig": {
+      "map": {...},
+      "tree": {...},
+      "portalFooter": {...},
+      "mainMenu": {...},
+      "secondaryMenu": {...}
+   },
+  "layerConfig": {
+      "baseLayer": {...},
+      "subjectLayer": {...}
+  }
+}
+```
+
+GIB NUR GÜLTIGES JSON ZURÜCK - KEINE ERKLÄRUNGEN, KEIN MARKDOWN.
 """
