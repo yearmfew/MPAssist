@@ -79,12 +79,14 @@ class RequirementFinder(BaseAgent):
         try:
             cleaned_llm_response = re.sub(r"```json?|```", "", llm_response).strip()
             requirements_dict = json.loads(cleaned_llm_response)
+
+            if not isinstance(requirements_dict, dict):
+                requirements_dict = {
+                    "requirements": requirements_dict if isinstance(requirements_dict, list) else [],
+                }
         except json.JSONDecodeError:
             requirements_dict = {
                 "requirements": [],
-                # "layers": [],
-                # "map_configurations": {},
-                # "menu_configurations": {},
             }
 
         return requirements_dict

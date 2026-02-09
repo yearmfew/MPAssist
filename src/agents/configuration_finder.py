@@ -140,8 +140,6 @@ class ConfigurationFinder(BaseAgent):
     def get_layer_configurations(self, requirements: str) -> str:
         query_str = str(requirements) if not isinstance(requirements, list) else " ".join(map(str, requirements))
 
-        # The half of the vector db chunks are layer documentation.
-        # To provide better context, we separate them here.
         documentation_chunks = self.get_chunks(
             query=query_str,
             k=K,
@@ -183,14 +181,40 @@ class ConfigurationFinder(BaseAgent):
         )
 
         llm_response = self.invoke_llm(full_prompt)
-        layerConfigurations = self.extract_json_from_response(llm_response)
+        try:
+            layerConfigurations = self.extract_json_from_response(llm_response)
 
-        ## Check for halisunation
-        layerConfigurations = self._check_for_halisunations(
-            configurations=layerConfigurations,
-            context=context_text,
-            config_object_id="layerConfig",
+            if not layerConfigurations or layerConfigurations == "{}":
+                self.print_nice(
+                    title="Warning: Empty layer configuration from LLM",
+                    message="LLM returned empty layer configuration. Using default structure.",
+                )
+                layerConfigurations = '{"layerConfig": []}'
+
+        except json.JSONDecodeError as e:
+            self.print_nice(
+                title="Error parsing layer configurations JSON",
+                message=f"An error occurred while parsing the layer configurations JSON: {str(e)}\n\nLLM Response was:\n{llm_response}",
+            )
+            layerConfigurations = '{"layerConfig": []}'
+
+        self.print_nice(
+            title="Layer Configurations before halisunation check",
+            message=json.dumps(layerConfigurations, indent=2),
         )
+
+        try:
+            ## Check for halisunation
+            layerConfigurations = self._check_for_halisunations(
+                configurations=layerConfigurations,
+                context=context_text,
+                config_object_id="layerConfig",
+            )
+        except Exception as e:
+            self.print_nice(
+                title="Error during halisunation check for layer configurations",
+                message=f"An error occurred during the halisunation check for layer configurations: {str(e)}\n\nLLM Response was:\n{llm_response}",
+            )
 
         return layerConfigurations
 
@@ -275,36 +299,6 @@ class ConfigurationFinder(BaseAgent):
 
         llm_response = self.invoke_llm(full_prompt)
         menuConfigurations = self.extract_json_from_response(llm_response)
-
-        ## Check for halisunation
-        ## menu_config has portalconfig and under both menu. This should be handled seperatly here.
-
-        # mainMenuConfigurations = json.loads(menuConfigurations)["portalConfig"]["mainMenu"]
-
-        # mainMenuConfigurations = self._check_for_halisunations(
-        #     configurations=mainMenuConfigurations,
-        #     default_configurations={
-        #         "mainMenu": main_menu_default_configurations,
-        #         "secondaryMenu": secondary_menu_default_configurations,
-        #     },
-        #     context=context_text,
-        #     config_object_id="mainMenu",
-        # )
-        # menuConfigurations = json.loads(menuConfigurations)
-        # menuConfigurations["portalConfig"]["mainMenu"] = mainMenuConfigurations
-
-        # secondaryMenuConfigurations = json.loads(menuConfigurations)["portalConfig"]["secondaryMenu"]
-        # secondaryMenuConfigurations = self._check_for_halisunations(
-        #     configurations=secondaryMenuConfigurations,
-        #     default_configurations={
-        #         "mainMenu": main_menu_default_configurations,
-        #         "secondaryMenu": secondary_menu_default_configurations,
-        #     },
-        #     context=context_text,
-        #     config_object_id="secondaryMenu",
-        # )
-
-        # menuConfigurations["portalConfig"]["secondaryMenu"] = secondaryMenuConfigurations
 
         return menuConfigurations
 
